@@ -1,0 +1,22 @@
+{
+  "name": "simple-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d lib",
+    "start": "babel-watch src/index.js"
+  },
+  "author": "GavrilM",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "mongod": "^2.0.0",
+    "mongoose": "^4.8.5"
+  },
+  "devDependencies": {
+    "morgan": "^1.8.1"
+  }
+}
