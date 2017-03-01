@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const expressVue = require('express-vue')
+const passport = require('passport')
 
 const Router = require('./routes')
 
@@ -9,17 +9,12 @@ module.exports = function(){
 
 	app.set('views', __dirname + '/app/views');
 
-	app.set('vue', {
-	    componentsDir: __dirname + '/components',
-	    defaultLayout: 'layout'
-	});
-
-	app.engine('vue', expressVue);
-	app.set('view engine', 'vue');
+	app.use(passport.initialize())
+	app.use(passport.session())
 
 	app.use(express.static(path.join(__dirname,"public/")))
 
-	app.use("/", Router.main)
+	app.use("/", Router)
 
 	app.use("/api", Router.api)
 

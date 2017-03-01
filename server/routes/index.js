@@ -9,12 +9,5 @@ base.get('*', (req,res) => {
 	res.send('Sry my dood, dis a 404 error')
 })
 
-module.exports.main = base
+module.exports = base
 
-const api = express.Router()
-
-api.get('/', (req,res) => {
-	res.send(`API route`)
-})
-
-module.exports.api = api
