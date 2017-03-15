@@ -2,7 +2,10 @@ const express = require('express')
 const path = require('path')
 const passport = require('passport')
 
+const Db = require("./config/mongoose")
+
 const Router = require('./routes')
+const UserRoutes = require('./routes/users')
 
 module.exports = function(){
 	const app = express()
@@ -14,9 +17,14 @@ module.exports = function(){
 
 	app.use(express.static(path.join(__dirname,"public/")))
 
+	app.use("/users", UserRoutes)
+
 	app.use("/", Router)
 
-	app.use("/api", Router.api)
+	app.use((err, req, res, next) => {
+		if(err) console.log(err)
+		res.status(500).send('Oops! Server Error')
+	})
 
 	return app
 }

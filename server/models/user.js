@@ -23,8 +23,12 @@ const user = new mongoose.Schema({
 
 })
 
+user.pre('save', function(next){
+	this.password = hash(password)
+})
+
 user.methods.authWithPassword = function(password){
 	return hash(password) === this.password
 }
 
-module.exports = mongoose.Model("User", user)
+mongoose.model("User", user)
