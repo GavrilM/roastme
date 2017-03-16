@@ -19,12 +19,23 @@ module.exports.create = function(req,res,next){
 	})
 }
 
-module.exports.signIn = fucntion(req, res, next){
+module.exports.signIn = function(req, res, next){
 	req.user ? res.send("fantastic") : res.send("sucks man")
 }
 
 module.exports.getById = function(req, res){
 	res.send(req.user)
+}
+
+module.exports.isUnique = function(req,res){
+	User.findOne({ 
+		username:req.body.username
+	}, (err, user) => {
+		if(user)
+			res.send(false)
+		else
+			res.send(true)
+	})
 }
 
 module.exports.byId = function(req,res,next,id){
