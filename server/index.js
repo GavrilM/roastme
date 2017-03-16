@@ -1,27 +1,30 @@
 const express = require('express')
 const path = require('path')
-const expressVue = require('express-vue')
+const passport = require('passport')
+
+const Db = require("./config/mongoose")
 
 const Router = require('./routes')
+const UserRoutes = require('./routes/users')
 
 module.exports = function(){
 	const app = express()
 
 	app.set('views', __dirname + '/app/views');
 
-	app.set('vue', {
-	    componentsDir: __dirname + '/components',
-	    defaultLayout: 'layout'
-	});
-
-	app.engine('vue', expressVue);
-	app.set('view engine', 'vue');
+	app.use(passport.initialize())
+	app.use(passport.session())
 
 	app.use(express.static(path.join(__dirname,"public/")))
 
-	app.use("/", Router.main)
+	app.use("/users", UserRoutes)
 
-	app.use("/api", Router.api)
+	app.use("/", Router)
+
+	app.use((err, req, res, next) => {
+		if(err) console.log(err)
+		res.status(500).send('Oops! Server Error')
+	})
 
 	return app
 }
