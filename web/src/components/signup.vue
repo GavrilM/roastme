@@ -1,7 +1,7 @@
 <template>
 	<div class="signup login-form">
 		<h2>Sign Up</h2>
-		<form vue-on:submit.prevent="onSubmit">
+		<form v-on:submit="onSubmit">
 			<input type="text" name="email" placeholder="Email">
 			<input type="text" name="name" placeholder="Username">
 			<input type="password" name="code" placeholder="Add Code">
@@ -16,7 +16,15 @@
 
 <script>
 	export default {
-		name: 'signup'
+		name: 'signup',
+		methods: {
+			onSubmit(e) {
+				e.preventDefault();
+				this.$http.post('/api/user/signup', {
+					//form stuff
+				})
+			}
+		}
 	}
 </script>
 
