@@ -8,7 +8,7 @@ module.exports.create = function(req,res,next){
 	user.save((err) => {
 		if(err){
 			console.log(err)
-			res.send(err)
+			res.status(400).send(err)
 		} 
 		else{
 			res.json(user)

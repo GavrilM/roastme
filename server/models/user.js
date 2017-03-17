@@ -20,7 +20,7 @@ const user = new mongoose.Schema({
 		]
 	},
 	displayName: String,
-
+	roastsRecieved : Array
 })
 
 user.pre('save', function(next){

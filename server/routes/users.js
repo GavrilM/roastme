@@ -12,7 +12,7 @@ users.route('/signup')
 	.post(api.create)
 
 users.route('/signin')
-	.post(passport.authenticate('local'), api.signin)
+	.post(passport.authenticate('local'), api.signIn)
 
 users.param("userId", api.byId)
 

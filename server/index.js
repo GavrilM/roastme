@@ -6,6 +6,8 @@ const Db = require("./config/mongoose")
 
 const Router = require('./routes')
 const UserRoutes = require('./routes/users')
+const RoastRoutes = require('./routes/roasts')
+const Misc = require("./routes/util")
 
 module.exports = function(){
 	const app = express()
@@ -17,7 +19,11 @@ module.exports = function(){
 
 	app.use(express.static(path.join(__dirname,"public/")))
 
-	app.use("/users", UserRoutes)
+	app.use("/api/users", UserRoutes)
+	
+	app.use("/api/roast", RoastRoutes)
+	
+	app.use("/api/invite", Misc.invitee)
 
 	app.use("/", Router)
 
