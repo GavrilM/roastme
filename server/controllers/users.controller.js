@@ -4,7 +4,7 @@ const User = require("mongoose").model("User")
 module.exports.create = function(req,res,next){
 	const user = new User(req.body)
 	user.provider = 'local'
-
+	console.log(user)
 	user.save((err) => {
 		if(err){
 			console.log(err)

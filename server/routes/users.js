@@ -6,9 +6,6 @@ const api = require("../controllers/users.controller")
 const users = express.Router()
 
 users.route('/signup')
-	.get((req,res) => {
-		res.send(`user routes`)
-	})
 	.post(api.create)
 
 users.route('/signin')
