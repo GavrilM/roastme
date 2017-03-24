@@ -7,7 +7,6 @@ module.exports.create = function(req,res,next){
 	console.log(user)
 	user.save((err) => {
 		if(err){
-			console.log(err)
 			res.status(400).send(err)
 		} 
 		else{

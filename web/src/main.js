@@ -2,11 +2,15 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VeeValidate from 'vee-validate';
+import Resource from 'vue-resource'
+import SweetAlert from 'vue-sweetalert'
 
 import App from './App'
 import router from './router'
 
 Vue.use(VeeValidate);
+Vue.use(Resource);
+Vue.use(SweetAlert);
 
 Vue.config.productionTip = false
 
