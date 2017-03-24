@@ -3,10 +3,13 @@
 		<h2>Sign Up</h2>
 		<form v-on:submit="onSubmit">
 			<input v-validate="'required|email'" :class="{'invalid':errors.has('email')}" type="text" name="email" placeholder="Email">
+			<br><label v-show="errors.has('email')">Fix your email, idiot.</label><br>
 			<input v-validate="'required'" :class="{'invalid':errors.has('name')}" type="text" name="name" placeholder="Username">
+			<br><label v-show="errors.has('name') || usernameInvalid">Sorry, your name sucks. Jk we're not sorry.</label><br>
 			<input type="password" name="code" placeholder="Add Code">
+			<br><label v-show="errors.has('code') || usernameInvalid">Bad Code. Maybe you should gtfo.</label><br>
 			<input v-validate="'required'" :class="{'invalid':errors.has('password')}" type="password" name="password" placeholder="Password">
-			<input v-validate="'required'" :class="{'invalid':errors.has('validate')}" type="password" name="validate" placeholder="Re-enter Password">
+			<br><label v-show="errors.has('password')">I guess you're too stupid to make a good password.</label>
 			<br>
 			<input type="submit" name="" :disabled="errors.any()">
 		</form>
@@ -16,21 +19,31 @@
 
 <script>
 	import { default as swal } from 'sweetalert2'
+
 	export default {
 		name: 'signup',
+		data: {
+			usernameInvalid: false,
+		},
 		methods: {
 			onSubmit(e) {
 				e.preventDefault();
-
-				this.$http.post('/api/users/signup', {
-					//form stuff
-				}).then(res => {
-					console.log(res)
-				}, err => {
+				console.log(this)
+				this.$validator.validateAll().then(res => {
+					this.$http.post('/api/users/signup', {
+						//form stuff
+					}).then(res => {
+						console.log(res)
+					}, err => {
+						console.log(err)
+						Promise.reject(err)
+					})
+				})
+				.catch(err => {
 					this.$swal("Whoops!", "You dun fukt up.", "error")
 				})
 			}
-		}
+		},
 	}
 </script>
 
@@ -65,9 +78,13 @@
 		border-radius: 3px;
 		cursor: pointer;
 		padding: 2px 10px;
+		margin-top: 10px;
 	}
 	.invalid{
 		border-color: red !important;
+	}
+	label{
+		color: red;
 	}
 }
 </style>
