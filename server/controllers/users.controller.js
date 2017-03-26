@@ -4,7 +4,6 @@ const User = require("mongoose").model("User")
 module.exports.create = function(req,res,next){
 	const user = new User(req.body)
 	user.provider = 'local'
-	console.log(user)
 	user.save((err) => {
 		if(err){
 			res.status(400).send(err)
@@ -12,14 +11,16 @@ module.exports.create = function(req,res,next){
 		else{
 			res.json(user)
 			req.login(user, (err) => {
-				return err ? next(err) : res.send('Logged in')
+				return err ? next(err) : console.log('Logged in')
 			})
 		}
 	})
 }
 
 module.exports.signIn = function(req, res, next){
-	req.user ? res.send("fantastic") : res.send("sucks man")
+	if(req.user){
+		res.send("Already logged in!")
+	}	
 }
 
 module.exports.getById = function(req, res){

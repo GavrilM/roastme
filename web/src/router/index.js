@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import signin from '@/components/signin'
-import signup from '@/components/signup'
+import Home from '@/layouts/home'
+import Login from '@/layouts/login'
 
 Vue.use(Router)
 
@@ -11,18 +10,24 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Hello
+      component: Home,
+      beforeEnter: validate
     },
     {
-      path: '/signin',
-      name: 'Sign In',
-      component: signin
+      path: '/login',
+      name: 'Log In',
+      component: Login
     },
-    {
-      path: '/signup',
-      name: 'Sign Up',
-      component: signup
-    }
     
   ]
 })
+
+function validate(to, from, next){
+  Vue.http.get('api/users/checkauth')
+  .then(res => {
+    res.body ? next() : next('login')
+  })
+  .catch(err => {
+    next('landing')
+  })
+}

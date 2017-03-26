@@ -19,16 +19,20 @@ const user = new mongoose.Schema({
 			'Password too short'
 		]
 	},
-	displayName: String,
-	roastsRecieved : Array
+	displayName: {
+		type: String,
+		required: true
+	},
+	invites: Number,
 })
 
 user.pre('save', function(next){
-	this.password = hash(password)
+	this.password = hash(this.password)
+	next()
 })
 
 user.methods.authWithPassword = function(password){
 	return hash(password) === this.password
 }
 
-mongoose.model("User", user)
+module.exports = mongoose.model("User", user)

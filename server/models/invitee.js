@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const invitee = new mongoose.Schema({
+module.exports.invitee = mongoose.model("invitee",new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -13,4 +13,4 @@ const invitee = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+}))

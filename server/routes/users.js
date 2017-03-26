@@ -5,6 +5,10 @@ const api = require("../controllers/users.controller")
 
 const users = express.Router()
 
+users.route('/checkauth').get((req,res) => {
+	req.user ? res.send(true) : res.send(false)
+})
+
 users.route('/signup')
 	.post(api.create)
 
