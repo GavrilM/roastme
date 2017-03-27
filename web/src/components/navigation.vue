@@ -37,11 +37,6 @@
 						title: 'Ok!',
 						html: 'Result: ' + res
 					})
-				}).catch(err => {
-					this.$swal({
-						type: 'error',
-						title: 'Fuck'
-					})
 				})
 			}
 		}

@@ -48,3 +48,17 @@ module.exports.byId = function(req,res,next,id){
 		next()
 	})
 }
+
+module.exports.defaultGroup = function(req,res){
+	console.log('ran')
+	User.findOne({
+		_id: req.user._id
+	})
+	.then(user => {
+		console.log(user)
+		res.send(user.groups[0])
+	})
+	.catch(err => {
+		res.status(500).send('No groups found!')
+	})
+}

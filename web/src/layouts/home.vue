@@ -2,7 +2,7 @@
   <div class="home">
     <div class="navContainer"><navigation :open="drawerVisible"></navigation></div>
     <Toolbar v-on:showNav="navOpen"></Toolbar>
-    <router-view></router-view>
+    <router-view :groupId="groupId"></router-view>
   </div>
 </template>
 
@@ -19,12 +19,26 @@ export default {
   data () {
     return {
       drawerVisible: false,
+      
     }
   },
   methods: {
     navOpen() {
       this.drawerVisible = !this.drawerVisible
       console.log("ran")
+    }
+  },
+  computed: {
+    groupId(){
+      console.log("ran")
+      this.$http.get('/api/users/initialGroup')
+        .then(res => {
+          this.groupId = res
+          console.log(this)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

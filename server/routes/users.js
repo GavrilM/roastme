@@ -15,8 +15,13 @@ users.route('/signup')
 users.route('/signin')
 	.post(passport.authenticate('local'), api.signIn)
 
+users.route('/initialGroup')
+	// .get(api.defaultGroup)
+	.get((req,res) => {res.send('ok')})
+
 users.param("userId", api.byId)
 
 users.route("/:userId").get(api.getById)
+
 
 module.exports = users
