@@ -23,7 +23,11 @@ const user = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	invites: Number,
+	invites: {
+		type: Number,
+		default: 2
+	},
+	groups: Array,
 })
 
 user.pre('save', function(next){

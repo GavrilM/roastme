@@ -23,7 +23,7 @@
 		},
 		computed: {
 			btnText() {
-				return this.register ? "Log In" : "Register"
+				return this.register ? "Sign In" : "Register"
 			}
 		}
 	}

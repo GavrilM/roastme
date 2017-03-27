@@ -1,6 +1,7 @@
 const express = require('express')
 const UserRoutes = require('./users')
 const RoastRoutes = require('./roasts')
+const GroupRoutes = require('./groups')
 const Misc = require("./util")
 
 const base = express.Router()
@@ -12,6 +13,8 @@ base.get('/', (req,res) => {
 base.use("/api/users", UserRoutes)
 
 base.use("/api/roast", RoastRoutes)
+
+base.use("/api/group", GroupRoutes)
 
 base.use("/api/invite", Misc.invitee)
 
