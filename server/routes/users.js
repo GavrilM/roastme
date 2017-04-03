@@ -15,9 +15,14 @@ users.route('/signup')
 users.route('/signin')
 	.post(passport.authenticate('local'), api.signIn)
 
+users.route('/signout')
+	.post(api.signOut)
+
+users.route("/current")
+	.get(api.getById)
+
 users.route('/initialGroup')
-	// .get(api.defaultGroup)
-	.get((req,res) => {res.send('ok')})
+	.get(api.defaultGroup)
 
 users.param("userId", api.byId)
 

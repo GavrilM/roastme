@@ -1,12 +1,14 @@
 <template>
   <div class="home">
     <div class="navContainer"><navigation :open="drawerVisible"></navigation></div>
-    <Toolbar v-on:showNav="navOpen"></Toolbar>
-    <router-view :groupId="groupId"></router-view>
+    <Toolbar v-on:showNav="navOpen" :groupId="groupId" :user="user"></Toolbar>
+    <router-view :groupId="groupId" :user="user"></router-view>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import VueSocketio from 'vue-socket.io'
 import Toolbar from '@/components/toolbar'
 import navigation from '@/components/navigation'
 
@@ -19,28 +21,32 @@ export default {
   data () {
     return {
       drawerVisible: false,
-      
+      groupId: 'loading',
+      user: 'loading'
     }
   },
   methods: {
     navOpen() {
       this.drawerVisible = !this.drawerVisible
-      console.log("ran")
     }
   },
-  computed: {
-    groupId(){
-      console.log("ran")
-      this.$http.get('/api/users/initialGroup')
-        .then(res => {
-          this.groupId = res
-          console.log(this)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  }
+  mounted() {
+    // this.$http.get('/api/users/current')
+    //   .then(res => {
+    //     this.$data.user = res.body
+    //    })
+    //   .catch(err => {
+    //     this.$router.push({ name:'landing' })
+    //   })
+    // this.$http.get('/api/users/initialGroup')
+    //   .then(res => {
+    //     this.$data.groupId = res.body
+    //    })
+    //   .catch(err => {})
+
+    Vue.use(VueSocketio, 'localhost:3000')
+  },
+
 }
 </script>
 

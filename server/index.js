@@ -2,11 +2,13 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const passport = require('passport')
 const session = require('express-session')
+const passport = require('passport')
+const mongoose = require('mongoose')
 
-const Db = require("./config/mongoose")
 const passportConfig = require("./config/passport")
+const Db = require("./config/mongoose")
+const sessionStore = require('./config/session')
 
 const Router = require('./routes')
 
@@ -21,10 +23,12 @@ module.exports = function(){
 	app.use(bodyParser.json())
 
 	app.use(session({
-		saveUninitialized: true,
-		resave: true,
-		secret: 'sessionsecret'
-	}))
+		key: 'express.sid',
+    	store: sessionStore,
+	    secret: 'roastmyass',
+	    resave: true,
+	    saveUninitialized: true
+	}));
 
 	app.use(passport.initialize())
 	app.use(passport.session())

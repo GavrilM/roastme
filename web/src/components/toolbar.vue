@@ -13,9 +13,33 @@
 <script>
 	export default {
 		name: 'toolbar',
+		props: ['user', 'groupId'],
 		methods: {
 			roast() {
-				this.$swal("Roast");
+				this.$swal({
+					title: 'Roast',
+					input: 'text',
+					showCancelButton: true,
+					confirmButtonText: 'Create',
+					showLoaderOnConfirm: true,
+					preConfirm: (text) => {
+					    return this.$http.post('/api/roast/new', {
+							content: text,
+							createdAt: new Date(),
+							author: this.user._id,
+							location: {
+								where: 'group',
+								id: this.groupId
+							}
+						})
+				  	}
+				})
+				.then(res => {
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err)
+				})
 			},
 			showNav() {
 				this.$emit('showNav')

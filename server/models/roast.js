@@ -4,18 +4,30 @@ const passport = require("passport")
 const roast = mongoose.Schema({
     content: {
         type: String,
+        trim: true,
         required: true,
     },
-    user: {
+    author: {
         type: String,
-        required: String
+        required: true
     },
     createdAt: {
         type: Date,
         required: true
     },
     upvotes: {
-        type: Number
+        type: Number,
+        default: 0
+    },
+    location: {
+        where: {
+            type:String,
+            required: true
+        },
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+        }
     }
 })
 

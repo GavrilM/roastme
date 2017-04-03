@@ -23,7 +23,14 @@ module.exports.signIn = function(req, res, next){
 	}	
 }
 
+module.exports.signOut = function(req, res, next){
+	req.logout()
+	req.session.destroy()
+	res.end()
+}
+
 module.exports.getById = function(req, res){
+	delete req.user.password
 	res.send(req.user)
 }
 
@@ -50,12 +57,10 @@ module.exports.byId = function(req,res,next,id){
 }
 
 module.exports.defaultGroup = function(req,res){
-	console.log('ran')
 	User.findOne({
 		_id: req.user._id
 	})
 	.then(user => {
-		console.log(user)
 		res.send(user.groups[0])
 	})
 	.catch(err => {
