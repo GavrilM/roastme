@@ -3,7 +3,6 @@
 		<div class="list">
 			<Roast v-for="roast in roasts" :datum="roast" :key="roast._id"></Roast>
 		</div>
-		{{avail}}
 	</div>
 </template>
 
@@ -22,9 +21,6 @@ import Roast from '@/components/roast'
 			}
 		},
 		computed: {
-			avail() {
-				return this.$store.getters.group
-			},
 			roasts() {
 				return this.$store.getters.roasts
 			}

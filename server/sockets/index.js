@@ -2,6 +2,7 @@ const passportSocketIo = require("passport.socketio");
 
 const UserConfig = require('./user')
 const GroupsConfig = require('./groups')
+const roastApi = require('../controllers/roasts.controller')
 const sessionStore = require('../config/session')
 
 module.exports = function(io){
@@ -19,6 +20,12 @@ module.exports = function(io){
 
 		UserConfig(socket)
 		GroupsConfig(socket)
+		socket.on('roast', data => {
+			roastApi.create(data)
+			roastApi.feed(data.location.id).then( res => {
+				io.to(`${data.location.where}/${data.location.id}`).emit('roasts', res)
+			})
+		})
 	})
 }
 

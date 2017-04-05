@@ -23,15 +23,17 @@
 					confirmButtonText: 'Create',
 					showLoaderOnConfirm: true,
 					preConfirm: (text) => {
-					    return this.$http.post('/api/roast/new', {
-							content: text,
-							createdAt: new Date(),
-							author: this.user._id,
-							location: {
-								where: 'group',
-								id: this.groupId
-							}
-						})
+					    return new Promise((resolve,reject) => {
+					    	resolve(this.$socket.emit('roast', {
+								content: text,
+								createdAt: new Date(),
+								author: this.$store.getters.user._id,
+								location: {
+									where: 'group',
+									id: this.$store.getters.user.group
+								}
+							}))	
+					    })
 				  	}
 				})
 				.then(res => {

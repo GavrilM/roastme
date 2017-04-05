@@ -2,13 +2,13 @@ const express = require("express")
 const mongoose = require("mongoose")
 const Roast = mongoose.model("Roast")
 
-module.exports.create = function(req, res){
-    const roast = new Roast(req.body)
+module.exports.create = function(data){
+    const roast = new Roast(data)
     roast.save((err) => {
         if(err)
-            res.status(500).send(err)
+            return null
         else
-            res.json(roast)
+            return roast
     })
 }
 
