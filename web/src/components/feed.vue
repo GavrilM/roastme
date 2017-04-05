@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import Roast from '@/components/roast'
 
 	export default{
@@ -19,26 +18,19 @@ import Roast from '@/components/roast'
 		},
 		data() {
 			return {
-				roasts: [],
 				amount: 20
 			}
 		},
 		computed: {
 			avail() {
-				// if(this.groupId == 'loading')
-				// 	return 'Loading...'
-				// else
-				// 	this.$socket.emit('roasts', {groupId: this.groupId},res => {
-				// 		this.roasts = res
-				// 	})
-				// return '...thats it'
-				return this.$store.getters.user
+				return this.$store.getters.group
+			},
+			roasts() {
+				return this.$store.getters.roasts
 			}
 		},
-		mounted() {
-			this.$socket.emit('getRoasts',this.$store.getters.currentGroup,roasts => {
-				this.$store.commit('roasts', roasts)	
-			})
+		created() {
+			this.$socket.emit('joinGroup', this.$store.getters.group)
 		}
 
 	}

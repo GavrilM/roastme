@@ -27,22 +27,7 @@ export default {
     navOpen() {
       this.drawerVisible = !this.drawerVisible
     }
-  },
-  mounted() {
-    // this.$http.get('/api/users/current')
-    //   .then(res => {
-    //     this.$data.user = res.body
-    //    })
-    //   .catch(err => {
-    //     this.$router.push({ name:'landing' })
-    //   })
-    // this.$http.get('/api/users/initialGroup')
-    //   .then(res => {
-    //     this.$data.groupId = res.body
-    //    })
-    //   .catch(err => {})
-
-  },
+  }
 }
 </script>
 

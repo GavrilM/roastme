@@ -1,9 +1,10 @@
 export default {
 	connect(data){
 		console.log('Connected to Socket')
+		this.$forceUpdate()
 	},
 	reconnect(data){
-		if(this.$router.path == '/landing' || this.$router.path == '/signin' || this.$router.path == '/signup')
+		if(this.$route.path == '/landing' || this.$route.path == '/signin' || this.$route.path == '/signup')
 			this.$router.push('/')
 	},
 	currentUser(user){
@@ -11,5 +12,8 @@ export default {
 	},
 	currentGroup(group){
 		this.$store.commit('currentGroup', group)
+	},
+	roasts(data){
+		this.$store.commit('roasts', data)
 	}
 }

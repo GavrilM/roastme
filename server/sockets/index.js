@@ -1,6 +1,7 @@
 const passportSocketIo = require("passport.socketio");
+
 const UserConfig = require('./user')
-const RoastsConfig = require('./roasts')
+const GroupsConfig = require('./groups')
 const sessionStore = require('../config/session')
 
 module.exports = function(io){
@@ -17,15 +18,14 @@ module.exports = function(io){
 		console.log('connected')
 
 		UserConfig(socket)
-		RoastsConfig(socket)
+		GroupsConfig(socket)
 	})
 }
 
 function onAuthorizeSuccess(data, accept){
-	console.log('Auth Success')
 	accept(null,true)
 }
 
 function onAuthorizeFail(){
-	console.log('Failure')
+
 }
