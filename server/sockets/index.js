@@ -1,4 +1,5 @@
 const passportSocketIo = require("passport.socketio");
+const UserConfig = require('./user')
 const RoastsConfig = require('./roasts')
 const sessionStore = require('../config/session')
 
@@ -14,6 +15,8 @@ module.exports = function(io){
 
 	io.on('connection', socket => {
 		console.log('connected')
+
+		UserConfig(socket)
 		RoastsConfig(socket)
 	})
 }

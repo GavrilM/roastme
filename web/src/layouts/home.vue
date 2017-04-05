@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueSocketio from 'vue-socket.io'
 import Toolbar from '@/components/toolbar'
 import navigation from '@/components/navigation'
 
@@ -44,9 +42,7 @@ export default {
     //    })
     //   .catch(err => {})
 
-    Vue.use(VueSocketio, 'localhost:3000')
   },
-
 }
 </script>
 

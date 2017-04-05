@@ -25,18 +25,20 @@ import Roast from '@/components/roast'
 		},
 		computed: {
 			avail() {
-				if(this.groupId == 'loading')
-					return 'Loading...'
-				else
-					this.$socket.emit('roasts', {groupId: this.groupId},res => {
-						this.roasts = res
-					})
-				return '...thats it'
-
+				// if(this.groupId == 'loading')
+				// 	return 'Loading...'
+				// else
+				// 	this.$socket.emit('roasts', {groupId: this.groupId},res => {
+				// 		this.roasts = res
+				// 	})
+				// return '...thats it'
+				return this.$store.getters.user
 			}
 		},
 		mounted() {
-			
+			this.$socket.emit('getRoasts',this.$store.getters.currentGroup,roasts => {
+				this.$store.commit('roasts', roasts)	
+			})
 		}
 
 	}

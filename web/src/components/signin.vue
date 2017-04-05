@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueSocketio from 'vue-socket.io'
+
 export default {
 	name: 'signin',
 	methods: {
@@ -23,6 +26,8 @@ export default {
 			})
 			.then((res) => {
 				this.$router.push('/')
+				this.$socket.close()
+				this.$socket.open()
 			})
 			.catch((err => {
 				this.$swal("Rekt.", err.body, 'error')
@@ -31,7 +36,6 @@ export default {
 	},
 	computed: {
 		formclass(){
-			console.log(this)
 			return {
 				'submittable' : true
 			}

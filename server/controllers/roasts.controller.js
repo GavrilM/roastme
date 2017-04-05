@@ -21,11 +21,10 @@ module.exports.getRoast = function(req,res){
     })
 }
 
-module.exports.feed = function(req,res) {
-    console.log(req.params)
+module.exports.feed = function(groupId,res) {
     Roast.find({
         "location.where": 'group',
-        "location.id": mongoose.Types.ObjectId(req.groupId)
+        "location.id": mongoose.Types.ObjectId(groupId)
     }).sort({
         createdAt: -1
     }).then(results => {

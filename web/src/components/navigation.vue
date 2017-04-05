@@ -42,11 +42,9 @@
 				})
 			},
 			logout() {
-				console.log('hey')
 				this.$http.post('api/users/signout')
 				.then(res => {
 					this.$router.push({ name:'landing' })
-					console.log('bye')
 				})
 				.catch(err => {
 					console.log(err)

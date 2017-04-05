@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import socketio from 'socket.io-client'
+import VueSocketio from 'vue-socket.io'
 import Router from 'vue-router'
 import Home from '@/layouts/home'
 import Login from '@/layouts/login'

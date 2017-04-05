@@ -5,15 +5,17 @@ import VeeValidate from 'vee-validate';
 import Resource from 'vue-resource'
 import SweetAlert from 'vue-sweetalert'
 import VueSocketio from 'vue-socket.io'
+import socketio from 'socket.io-client'
 
 import App from './App'
 import router from './router'
 import sockets from './sockets'
+import store from './store'
 
 Vue.use(VeeValidate);
 Vue.use(Resource);
 Vue.use(SweetAlert);
-// Vue.use(VueSocketio, 'localhost:3000')
+Vue.use(VueSocketio, socketio('localhost:3000'))
 
 Vue.config.productionTip = false
 
@@ -23,5 +25,6 @@ new Vue({
   router,
   template: '<App/>',
   components: { App },
-  sockets: sockets
+  sockets,
+  store,
 })
