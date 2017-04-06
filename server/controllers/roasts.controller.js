@@ -2,13 +2,13 @@ const express = require("express")
 const mongoose = require("mongoose")
 const Roast = mongoose.model("Roast")
 
-module.exports.create = function(data){
+module.exports.create = function(data, fn){
     const roast = new Roast(data)
-    roast.save((err) => {
+    return roast.save((err) => {
         if(err)
-            return null
+            fn(null)
         else
-            return roast
+            fn(roast)
     })
 }
 

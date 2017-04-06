@@ -20,9 +20,12 @@ module.exports = function(io){
 
 		UserConfig(socket)
 		GroupsConfig(socket)
-		socket.on('roast', data => {
-			roastApi.create(data)
-			roastApi.feed(data.location.id).then( res => {
+		socket.on('roast', (data,fn) => {
+			roastApi.create(data, fn)
+			.then(res => {
+				return roastApi.feed(data.location.id)
+			})
+			.then(res => {
 				io.to(`${data.location.where}/${data.location.id}`).emit('roasts', res)
 			})
 		})

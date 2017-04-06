@@ -3,6 +3,10 @@ const mongoose = require("mongoose")
 
 const db = mongoose.connect(dburl)
 
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB event error: ' + err);
+});
+
 require("../models/user")
 require("../models/roast")
 require("../models/invitee")

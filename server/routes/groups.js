@@ -11,6 +11,6 @@ groups.route('/new')
 	.get((req,res) => {
 		res.send("cool")
 	})
-	.post(api.new)
+	.post(api.create)
 
 module.exports = groups

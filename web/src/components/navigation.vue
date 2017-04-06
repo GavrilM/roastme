@@ -26,8 +26,13 @@
 					confirmButtonText: 'Create',
 					showLoaderOnConfirm: true,
 				  	preConfirm: (text) => {
-					    return this.$http.post('/api/group/new',{
-					    	name: text
+					    return new Promise((resolve,reject) => {
+					    	this.$socket.emit('createGroup', {
+								name: text,
+								createdAt: new Date(),
+							}, res => {
+								res ? resolve(res) : reject(`Failed to create ${text}`)
+							})	
 					    })
 				  	},
 				    allowOutsideClick: false

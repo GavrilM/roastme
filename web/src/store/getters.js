@@ -1,6 +1,6 @@
 export default {
 	user(state){
-		return state.currentUser.displayName
+		return state.currentUser
 	},
 	group(state){
 		return state.currentGroup

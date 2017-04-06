@@ -24,23 +24,19 @@
 					showLoaderOnConfirm: true,
 					preConfirm: (text) => {
 					    return new Promise((resolve,reject) => {
-					    	resolve(this.$socket.emit('roast', {
+					    	this.$socket.emit('roast', {
 								content: text,
 								createdAt: new Date(),
 								author: this.$store.getters.user._id,
 								location: {
 									where: 'group',
-									id: this.$store.getters.user.group
+									id: this.$store.getters.group
 								}
-							}))	
+							}, res => {
+								res ? resolve(res) : reject('Failed to post')
+							})	
 					    })
 				  	}
-				})
-				.then(res => {
-					console.log(res)
-				})
-				.catch(err => {
-					console.log(err)
 				})
 			},
 			showNav() {
