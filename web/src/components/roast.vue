@@ -1,5 +1,10 @@
 <template>
 	<div class="roastTile">
+		<div class="vote">
+			<div v-on:click="upvote">up</div>
+			{{datum.upvotes}}
+			<div v-on:click="downvote">down</div>
+		</div>
 		{{datum.content}}
 	</div>
 </template>
@@ -11,12 +16,20 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.roastTile{
-		border: 1px solid black;
-		min-height: 70px;
-		width: 90%;
+		position: relative;
+		border-bottom: 1px solid black;
+		min-height: 110px;
 		display: flex;
 		align-items: center;
+	}
+	.vote{
+		display:flex;
+		flex-direction: column;
+		justify-content: space-around;
+		height:100px;
+		width: 50px;
+		margin: 0 20px 0 5px;
 	}
 </style>

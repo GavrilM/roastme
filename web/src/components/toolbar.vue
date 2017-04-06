@@ -49,9 +49,10 @@
 <style lang="less" scoped>
 	header {
 		height: 50px;
-		position: relative;
+		position: fixed;
 		border: 1px solid black;
 		user-select: none;
+		width: 100%;
 		div{
 			position:absolute;
 			top: 50%;
