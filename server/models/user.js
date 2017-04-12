@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
-const hash = require("../lib/util").hash
+const Groups = require('./group')
+const util = require("../lib/util")
 
 const user = new mongoose.Schema({
 	email: {
@@ -19,24 +20,61 @@ const user = new mongoose.Schema({
 			'Password too short'
 		]
 	},
+	username: {
+		type: String,
+		required: true,
+		trim: true,
+		lowercase:true
+	},
 	displayName: {
 		type: String,
-		required: true
+		required: true,
+		trim: true
 	},
 	invites: {
 		type: Number,
 		default: 2
 	},
 	groups: Array,
+	initial: String
 })
 
-user.pre('save', function(next){
-	this.password = hash(this.password)
-	next()
+user.pre('validate', function(next){
+	Groups.findOne({
+		addCode: this.initial
+	})
+	.then(res => {
+		if(!res){
+			next(new Error('Invalid Code'))
+			return
+		}
+		this.groups = [{
+			_id: res._id,
+			name: res.name,
+			owner: res.owner
+		}]
+		return userModel.findOne({
+			username: this.username
+		})
+	})
+	.then(res => {
+		if(res){
+			this.username += util.makeid(3)
+		}
+		this.password = util.hash(this.password)
+		next()
+	})
+	.catch(err => {
+		console.log('err', err)
+		next(err)
+	})
 })
 
 user.methods.authWithPassword = function(password){
-	return hash(password) === this.password
+	return util.hash(password) === this.password
 }
 
-module.exports = mongoose.model("User", user)
+const userModel = mongoose.model("User", user)
+
+module.exports = userModel
+

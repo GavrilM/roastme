@@ -11,7 +11,9 @@ export default new Vuex.Store({
 	state: {
 		currentUser:{},
 		currentGroup: {},
-		roasts: []
+		allGroups: [],
+		roasts: [],
+		room: null
 	},
 	getters,
 	mutations,

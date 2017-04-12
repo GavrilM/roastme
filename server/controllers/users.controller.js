@@ -1,19 +1,19 @@
 const passport = require('passport')
 const User = require("mongoose").model("User")
 
-module.exports.create = function(req,res,next){
+module.exports.create = function(req,res){
+	req.body.username = req.body.displayName.replace(/\s/g,'').toLowerCase()
 	const user = new User(req.body)
 	user.provider = 'local'
-	user.save((err) => {
-		if(err){
-			res.status(400).send(err)
-		} 
-		else{
-			res.json(user)
-			req.login(user, (err) => {
-				return err ? next(err) : console.log('Logged in')
-			})
-		}
+	user.save()
+	.then(result => {
+		req.login(user, (err) => {
+			return err ? res.send(500, err) : res.send('Logged in')
+		})
+	})
+	.catch(err => {
+		if(err.message === 'Invalid Code') err = 'Invalid Code'
+		res.status(400).send(err)
 	})
 }
 
@@ -67,3 +67,4 @@ module.exports.defaultGroup = function(req,res){
 		res.status(500).send('No groups found!')
 	})
 }
+

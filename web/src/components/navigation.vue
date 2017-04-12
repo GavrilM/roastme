@@ -1,12 +1,16 @@
 <template>
 	<nav>
 		<div class="nav-item" v-on:click="makeGroup">
-			Create Group
+			<span class="lnr lnr-plus-circle"></span>Create Group
 		</div>
-		<div class="nav-item" v-on:click="logout">Logout</div>
-		<div class="nav-list"></div>
+		<ul class="nav-list">
+			<li v-for="group in allGroups" :class="active(group)" class="item" v-on:click="switchGroup(group._id)">{{group.name}}</li>
+		</ul>
 		<div class="nav-item"></div>
-		<div class="nav-list"></div>
+		<ul class="nav-list"></ul>
+		<div class="nav-item" v-on:click="logout">
+			<span class="lnr lnr-exit"></span>Logout
+		</div>
 	</nav>
 	
 </template>
@@ -14,10 +18,16 @@
 <script>
 	export default {
 		name: 'navigation',
-		props: [
-			'open'
-		],
+		computed: {
+			allGroups(){
+				return this.$store.getters.allGroups
+			}
+		},
 		methods: {
+			switchGroup(groupId){
+				this.$router.push('/')
+				this.$socket.emit('joinGroup', this.$store.getters.room, groupId)
+			},
 			makeGroup() {
 				this.$swal({
 					title: 'Create a new group',
@@ -29,7 +39,7 @@
 					    return new Promise((resolve,reject) => {
 					    	this.$socket.emit('createGroup', {
 								name: text,
-								createdAt: new Date(),
+								createdAt: new Date()
 							}, res => {
 								res ? resolve(res) : reject(`Failed to create ${text}`)
 							})	
@@ -54,6 +64,9 @@
 				.catch(err => {
 					console.log(err)
 				})
+			},
+			active(group){
+				return { active: group._id === this.$store.getters.group._id }
 			}
 		}
 	}
@@ -63,14 +76,36 @@
 	nav{
 		user-select: none;
 		height: 100%;
+		color:white;
+		font-family: 'Poppins', sans-serif;
+		background-color: #7c3635;
+		border-top: 1px solid #d3d3d3;
+		overflow-y: scroll;
+		*{
+			cursor: pointer;
+		}
+
+		.lnr{
+			margin: 0 5px;
+		}
 	}
 	.nav-item{
 		height: 40px;
 		display:flex;
 		align-items: center;
 	}
-	.visible{
-		color:red
+	.item {
+		width: 100%;
+		padding: 10px 0;
+		background-color: #7c3635;
+		transition: background-color 200ms;
+		&:hover{
+			background-color: #440B09;
+		}
+	}
+
+	.active{
+		background-color: #d75339 !important;
 	}
 
 </style>

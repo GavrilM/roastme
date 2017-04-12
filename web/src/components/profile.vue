@@ -4,6 +4,9 @@
 
 <script>
 	export default {
-		name: 'profile'
+		name: 'profile',
+		created() {
+			this.$socket.emit('joinFeed', this.$store.getters.room,'user/wall',this.$route.params.user)
+		}
 	}
 </script>

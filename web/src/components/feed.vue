@@ -1,7 +1,7 @@
 <template>
 	<div class="feed">
 		<div class="list">
-			<Roast v-for="roast in roasts" :datum="roast" :key="roast._id"></Roast>
+			<Roast v-for="(roast,key,i) in roasts" :datum="roast" :key="roast._id" :upvoted="roast.upvoted"></Roast>
 		</div>
 	</div>
 </template>
@@ -26,7 +26,7 @@ import Roast from '@/components/roast'
 			}
 		},
 		created() {
-			this.$socket.emit('joinGroup', this.$store.getters.group)
+			this.$socket.emit('joinFeed', this.$store.getters.room,'group',this.$store.getters.group._id)
 		}
 
 	}

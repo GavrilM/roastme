@@ -45,5 +45,4 @@ export default {
 </script>
 
 <style>
-/*see signup*/
 </style>

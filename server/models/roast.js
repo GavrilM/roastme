@@ -8,8 +8,14 @@ const roast = mongoose.Schema({
         required: true,
     },
     author: {
-        type: String,
-        required: true
+        username: {
+            type: String,
+            required:true
+        },
+        displayName: {
+            type: String,
+            required:true
+        }
     },
     createdAt: {
         type: Date,
@@ -18,6 +24,14 @@ const roast = mongoose.Schema({
     upvotes: {
         type: Number,
         default: 0
+    },
+    upvoted: {
+        type: Array,
+        default: []
+    },
+    downvoted: {
+        type: Array,
+        default: []
     },
     location: {
         where: {
@@ -31,4 +45,4 @@ const roast = mongoose.Schema({
     }
 })
 
-mongoose.model("Roast", roast)
+module.exports = mongoose.model("Roast", roast)

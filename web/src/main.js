@@ -5,6 +5,7 @@ import VeeValidate from 'vee-validate';
 import Resource from 'vue-resource'
 import SweetAlert from 'vue-sweetalert'
 import VueSocketio from 'vue-socket.io'
+import VueHead from 'vue-head'
 import socketio from 'socket.io-client'
 
 import App from './App'
@@ -16,6 +17,7 @@ Vue.use(VeeValidate);
 Vue.use(Resource);
 Vue.use(SweetAlert);
 Vue.use(VueSocketio, socketio('localhost:3000'))
+Vue.use(VueHead)
 
 Vue.config.productionTip = false
 
