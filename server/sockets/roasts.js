@@ -4,8 +4,8 @@ const Users = require('mongoose').model('User')
 
 module.exports = function(io, socket){
 
-	socket.on('joinFeed', (from,path,id) => {
-		if(from) socket.leave(from)
+	socket.on('joinFeed', (loc,path,id) => {
+		if(loc) socket.leave(loc)
 		socket.join(`${path}/${id}`)
 		socket.emit('room', `${path}/${id}`)
 
@@ -22,7 +22,7 @@ module.exports = function(io, socket){
 		}
 		else if(path.substr(0,path.indexOf('/')) === 'user'){
 			Users.findOne({
-				_id: id
+				username: id
 			})
 			.then(res => {
 				delete res.password
@@ -31,35 +31,35 @@ module.exports = function(io, socket){
 			type = 'user'
 		}
 
-		api.feed(type,id).then(res => sendRoasts(path,id,res))
+		api.feed(type,id).then(res => sendRoasts(`${path}/${id}`,res))
 	})
 
-	socket.on('roast', (data,fn) => {
+	socket.on('roast', (loc,data,fn) => {
 		api.create(data, fn)
 		.then(res => {
 			return api.feed(data.location.where, data.location.id)
 		})
-		.then(res => sendRoasts(data.location.where, data.location.id, res))
+		.then(res => sendRoasts(loc, res))
 	})
 
-	socket.on('vote', data => {
+	socket.on('vote', (loc,data) => {
 		api.vote(data, socket.request.user._id)
 		.then(res => {
 			return api.feed(data.location.where, data.location.id)
 		})
-		.then(res => sendRoasts(data.location.where, data.location.id, res))
+		.then(res => sendRoasts(loc, res))
 	})
 
-	socket.on('remove', data => {
+	socket.on('remove', (loc,data) => {
 		api.remove(data)
 		.then(res => {
 			return api.feed(data.location.where, data.location.id)
 		})
-		.then(res => sendRoasts(data.location.where, data.location.id, res))
+		.then(res => sendRoasts(loc, res))
 	})
 
-	function sendRoasts(loc,id,roasts) {
-		io.to(`${loc}/${id}`).emit('roasts', roasts || [])
+	function sendRoasts(loc,roasts) {
+		io.to(loc).emit('roasts', roasts || [])
 	}
 }
 

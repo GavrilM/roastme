@@ -28,7 +28,7 @@
 					title = `Roast ${this.$store.getters.profile.displayName}`
 					location = {
 						where: 'user',
-						id: this.$store.getters.profile._id 
+						id: this.$store.getters.profile.username 
 					}
 				}
 				else{
@@ -47,7 +47,7 @@
 					showLoaderOnConfirm: true,
 					preConfirm: (text) => {
 						return new Promise((resolve,reject) => {
-					    	this.$socket.emit('roast', {
+					    	this.$socket.emit('roast',this.$store.getters.room,{
 								content: text,
 								createdAt: new Date(),
 								author: {

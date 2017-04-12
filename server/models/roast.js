@@ -39,7 +39,7 @@ const roast = mongoose.Schema({
             required: true
         },
         id: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.Mixed,
             required: true
         }
     }

@@ -64,7 +64,7 @@
 
 					}
 				}
-				this.$socket.emit('vote', update)
+				this.$socket.emit('vote',this.$store.getters.room,update)
 			},
 			remove(){
 				this.$swal({
@@ -77,7 +77,7 @@
 					confirmButtonText: 'Yes, delete it!',
 					preConfirm: () => {
 						return new Promise((resolve,reject) => {
-							resolve(this.$socket.emit('remove', this.datum))
+							resolve(this.$socket.emit('remove',this.$store.getters.room,this.datum))
 						})
 					}
 				})

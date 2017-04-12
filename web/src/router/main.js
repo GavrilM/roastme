@@ -1,5 +1,5 @@
 import Router from 'vue-router'
-import Feed from '@/components/feed'
+import Group from '@/components/group'
 import Profile from '@/components/profile'
 import Settings from '@/components/settings'
 import Search from '@/components/search'
@@ -7,7 +7,7 @@ import Search from '@/components/search'
 export default [
   {
     path: '',
-    component: Feed
+    component: Group
   },
   {
     path: 'profile/:user',
@@ -17,7 +17,7 @@ export default [
   {
     path: 'group/:groupId',
     name: 'group',
-    component: Feed
+    component: Group
   },
   {
     path: 'settings',

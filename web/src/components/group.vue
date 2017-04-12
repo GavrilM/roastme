@@ -1,6 +1,5 @@
 <template>
-	<div class="profile">
-		<h3>Profile</h3>
+	<div class="group">
 		<Feed :roasts="roasts"></Feed>
 	</div>
 </template>
@@ -8,10 +7,15 @@
 <script>
 import Feed from '@/components/Feed'
 
-	export default {
-		name: 'profile',
+	export default{
+		name: 'Group',
 		components: {
 			Feed
+		},
+		data() {
+			return {
+				amount: 20
+			}
 		},
 		computed: {
 			roasts() {
@@ -19,7 +23,8 @@ import Feed from '@/components/Feed'
 			}
 		},
 		created() {
-			this.$socket.emit('joinFeed', this.$store.getters.room,'user/wall',this.$route.params.user)
+			this.$socket.emit('joinFeed', this.$store.getters.room,'group',this.$store.getters.group._id)
 		}
+
 	}
 </script>

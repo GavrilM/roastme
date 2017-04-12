@@ -11,23 +11,9 @@ import Roast from '@/components/roast'
 
 	export default{
 		name: 'Feed',
-		props: ['groupId'],
+		props: ['roasts'],
 		components: {
 			Roast
-		},
-		data() {
-			return {
-				amount: 20
-			}
-		},
-		computed: {
-			roasts() {
-				return this.$store.getters.roasts
-			}
-		},
-		created() {
-			this.$socket.emit('joinFeed', this.$store.getters.room,'group',this.$store.getters.group._id)
 		}
-
 	}
 </script>
