@@ -42,29 +42,33 @@
 
 				const down = downvoted.indexOf(username)
 				const up = upvoted.indexOf(username)
+				let direction = 0
 
 				if(down > -1 && choice){
 					update.downvoted.splice(down,1)
 					update.upvoted.push(username)
 					update.upvotes += 2
+					direction = 2
 				}
 				else if(up > -1 && !choice){
 					update.upvoted.splice(up,1)
 					update.downvoted.push(username)
 					update.upvotes -= 2
+					direction = -2
 				}
 				if(up == -1 && down == -1){
 					if(choice){
 						update.upvotes++
 						update.upvoted.push(username)
+						direction = 1
 					}
 					else{
 						update.upvotes--
 						update.downvoted.push(username)
-
+						direction = -1
 					}
 				}
-				this.$socket.emit('vote',this.$store.getters.room,update)
+				this.$socket.emit('vote',this.$store.getters.room,update, direction)
 			},
 			remove(){
 				this.$swal({
@@ -95,6 +99,7 @@
 <style scoped>
 	.roastTile{
 		position: relative;
+		background: white;
 		border-bottom: 1px solid #d3d3d3;
 		min-height: 110px;
 		display: flex;

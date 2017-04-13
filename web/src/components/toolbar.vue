@@ -18,7 +18,11 @@
 		props: ['user', 'groupId'],
 		computed: {
 			title(){
-				return this.$store.getters.group.name || 'Roast Wars'
+				console.log(this.$route.path)
+				if(this.$route.path === '/' || this.$route.name === 'group')
+					return this.$store.getters.group.name || 'Roast Wars'
+				else if(this.$route.name === 'profile')
+					return 'Profile'
 			}
 		},
 		methods: {
@@ -108,5 +112,6 @@
 		font-family: 'Poppins', sans-serif;
 		width: 100%;
 		margin-left: 50px;
+		text-align: center;
 	}
 </style>

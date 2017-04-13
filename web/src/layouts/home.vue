@@ -61,7 +61,7 @@
     left: @sideWidth;
     width: calc(~'100vw - 250px');
     height: 100%;
-    overflow-y:scroll;
+    overflow-y:hidden;
   }
   h1, h2 {
     font-weight: normal;
@@ -88,7 +88,7 @@
     transform: translateX(-250px);
   }
 
-  @media screen and (max-width:650px){
+  @media screen and (max-width:850px){
     .navContainer{
       
     }

@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const Roast = mongoose.model("Roast")
+const Users = mongoose.model("User")
 
 module.exports.create = function(data, fn){
     const roast = new Roast(sanitize(data))
@@ -30,7 +31,8 @@ module.exports.feed = function(type,id) {
     })
 }
 
-module.exports.vote = function(roast, userId){
+module.exports.vote = function(roast, userId, amount = 0){
+    console.log(userId, amount)
     return Roast.update({
         _id: roast._id,
         upvoted: {
@@ -43,6 +45,15 @@ module.exports.vote = function(roast, userId){
         upvoted: roast.upvoted,
         downvoted: roast.downvoted,
         upvotes: roast.upvotes
+    })
+    .then(res => {
+        return Users.update({
+            _id: userId
+        },{
+            $inc: {
+                points: amount
+            }
+        })
     })
 }
 

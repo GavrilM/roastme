@@ -1,7 +1,7 @@
 <template>
 	<div class="feed">
 		<div class="list">
-			<Roast v-for="(roast,key,i) in roasts" :datum="roast" :key="roast._id" :upvoted="roast.upvoted"></Roast>
+			<Roast v-for="(roast,key,i) in roasts" :datum="roast" :key="roast._id"></Roast>
 		</div>
 	</div>
 </template>

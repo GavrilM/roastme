@@ -42,8 +42,8 @@ module.exports = function(io, socket){
 		.then(res => sendRoasts(loc, res))
 	})
 
-	socket.on('vote', (loc,data) => {
-		api.vote(data, socket.request.user._id)
+	socket.on('vote', (loc,data, amt) => {
+		api.vote(data, socket.request.user._id, amt)
 		.then(res => {
 			return api.feed(data.location.where, data.location.id)
 		})

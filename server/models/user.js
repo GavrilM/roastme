@@ -35,6 +35,10 @@ const user = new mongoose.Schema({
 		type: Number,
 		default: 2
 	},
+	points: {
+		type: Number,
+		default: 100
+	},
 	groups: Array,
 	initial: String
 })
