@@ -1,8 +1,9 @@
 const passport = require('passport')
-const User = require("mongoose").model("User")
+const mongoose = require("mongoose")
+const User = mongoose.model("User")
 
 module.exports.create = function(req,res){
-	req.body.username = req.body.displayName.replace(/\s/g,'').toLowerCase()
+	req.body.username = removeSpaces(req.body.displayName).toLowerCase()
 	const user = new User(req.body)
 	user.provider = 'local'
 	user.save()
@@ -68,3 +69,18 @@ module.exports.defaultGroup = function(req,res){
 	})
 }
 
+module.exports.updateAccount = function(_id, data){
+	return User.update({_id : mongoose.Types.ObjectId(_id)}, data)
+}
+
+module.exports.search = function(query){
+	return User.find({
+		$text: {
+			$search: query
+		}
+	})
+}
+
+function removeSpaces(text){
+	return text.replace(/\s/g,'')
+}

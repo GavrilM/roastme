@@ -1,5 +1,8 @@
 <template>
-	<div class="lnr lnr-cross-circle" v-on:click="removeGroup" v-show="removable"> Delete group</div>
+	<div class="options">
+		<div class="lnr lnr-cross-circle" v-on:click="removeGroup" v-show="removable"> Delete group</div>
+		<router-link :to="{ name: 'profile', params: { user: this.$store.getters.user.username }}"><button>My Profile</button></router-link>
+	</div>
 </template>
 
 <script>
@@ -7,7 +10,8 @@
 		name: 'options',
 		computed: {
 			removable() {
-				return this.$store.getters.user._id === this.$store.getters.group.owner
+				return this.$route.path === '/' || this.$route.name === 'group' 
+						&& this.$store.getters.user._id === this.$store.getters.group.owner
 			}
 		},
 		methods: {

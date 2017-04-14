@@ -44,3 +44,11 @@ module.exports.remove = function(group){
 		})
 	})
 }
+
+module.exports.search = function(query){
+	return Group.find({
+		$text: {
+			$search: query
+		}
+	})
+}

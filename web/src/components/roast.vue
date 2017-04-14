@@ -9,8 +9,10 @@
 		{{datum.content}}
 		<div v-on:click="remove" class="remove lnr lnr-trash" v-show="removable"></div>
 		<div class="metadata">
-			<div><router-link :to="{ name: 'profile', params: { user: datum.author.username }}">{{datum.author.displayName}}</router-link></div>
-			<div>{{date}}</div>
+			<div><router-link :to="{ name: 'profile', params: { user: datum.author.username }}" v-show="!datum.anonymous">
+				{{datum.author.displayName}}
+			</router-link></div>
+			<div>{{date | moment("from", "now")}}</div>
 		</div>
 	</div>
 </template>

@@ -16,5 +16,8 @@ export default {
 	},
 	room(state){
 		return state.room
+	},
+	search(state){
+		return state.searchResults
 	}
 }

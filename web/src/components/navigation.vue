@@ -26,7 +26,7 @@
 		methods: {
 			switchGroup(groupId){
 				this.$router.push('/')
-				this.$socket.emit('joinGroup', this.$store.getters.room, groupId)
+				this.$socket.emit('joinFeed', this.$store.getters.room,'group',groupId)
 			},
 			makeGroup() {
 				this.$swal({

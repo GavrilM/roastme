@@ -24,5 +24,8 @@ export default {
 	},
 	roasts(data){
 		this.$store.commit('roasts', data)
+	},
+	searchResults(data){
+		this.$store.commit('searchResults', data)
 	}
 }

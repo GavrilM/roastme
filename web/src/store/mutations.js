@@ -16,5 +16,8 @@ export default {
 	},
 	room(state, room){
 		state.room = room
+	},
+	searchResults(state, data){
+		state.searchResults = data
 	}
 }

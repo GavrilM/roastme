@@ -21,6 +21,10 @@ const roast = mongoose.Schema({
         type: Date,
         required: true
     },
+    anonymous: {
+        type: Boolean,
+        default: false
+    },
     upvotes: {
         type: Number,
         default: 0

@@ -6,7 +6,7 @@
 		</div>
 		<div class="right">
 			<span class="lnr lnr-cog" v-on:click="shift"></span>
-			<span class="lnr lnr-magnifier"><router-link to="search"></router-link></span>
+			<router-link :to="{name: 'search'}"><span class="lnr lnr-magnifier"></span></router-link>
 			<span v-on:click="roast" class="lnr lnr-pencil"></span>
 		</div>
 	</header>
@@ -18,11 +18,18 @@
 		props: ['user', 'groupId'],
 		computed: {
 			title(){
-				console.log(this.$route.path)
-				if(this.$route.path === '/' || this.$route.name === 'group')
-					return this.$store.getters.group.name || 'Roast Wars'
-				else if(this.$route.name === 'profile')
-					return 'Profile'
+				if(this.$route.path === '/')
+					return 'Roast Wars'
+				switch(this.$route.name){
+					case 'group': return this.$store.getters.group.name || 'Roast Wars'
+									break;
+					case 'profile': return 'Profile'
+									break;
+					case 'settings': return 'Settings'
+									break;
+					case 'search': return 'Search'
+									break;
+				}
 			}
 		},
 		methods: {
@@ -46,6 +53,7 @@
 				this.$swal({
 					title,
 					input: 'text',
+					html: '<input type="checkbox" id="anon"/><label>Anonymous?</label>',
 					showCancelButton: true,
 					confirmButtonText: 'Create',
 					showLoaderOnConfirm: true,
@@ -54,6 +62,7 @@
 					    	this.$socket.emit('roast',this.$store.getters.room,{
 								content: text,
 								createdAt: new Date(),
+								anonymous: document.getElementById("anon").checked,
 								author: {
 									username: this.$store.getters.user.username,
 									displayName: this.$store.getters.user.displayName,
@@ -100,6 +109,10 @@
 				cursor:pointer;
 				font-weight: 900;
 				font-size: 1.5em;
+			}
+			a{
+				color: black;
+				text-decoration: none;
 			}
 		}
 	}

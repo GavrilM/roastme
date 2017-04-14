@@ -26,7 +26,7 @@ export default [
   },
   {
     path: 'search',
-    name: 'Search',
+    name: 'search',
     component: Search
   }
 ]

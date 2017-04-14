@@ -25,14 +25,13 @@ module.exports.getRoast = function(req,res){
 module.exports.feed = function(type,id) {
     return Roast.find({
         "location.where": type,
-        "location.id": type === 'group' ? mongoose.Types.ObjectId(id) : id
+        "location.id": id
     }).sort({
         createdAt: -1
     })
 }
 
 module.exports.vote = function(roast, userId, amount = 0){
-    console.log(userId, amount)
     return Roast.update({
         _id: roast._id,
         upvoted: {

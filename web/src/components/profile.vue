@@ -4,6 +4,7 @@
 			<img src="http://www.newdesignfile.com/postpic/2009/09/generic-user-icon-windows_354183.png">
 			<h1>{{name}}</h1>
 			<h3>Heat Level: {{heat}}</h3>
+			<router-link :to="{name: 'settings'}">Edit...</router-link>
 		</div>
 		<Feed :roasts="roasts" :class="{floating: scrolled}"></Feed>
 	</div>
@@ -54,7 +55,6 @@
 	.info{
 		width: inherit;
 		height: @infoheight;
-		z-index: -5;
 		position:fixed;
 		border-bottom: 1px solid #d3d3d3;
 		font-family: 'Poppins', sans-serif;
@@ -80,6 +80,10 @@
 			position: absolute;
 			left: calc(~"8% + 210px");
 			top: 175px;
+		}
+		a{
+			position:absolute;
+			bottom: 5px;
 		}
 	}
 	.feed{

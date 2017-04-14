@@ -12,6 +12,7 @@
     "socket.io-client": "^1.7.3",
     "vue": "^2.2.1",
     "vue-head": "^2.0.10",
+    "vue-moment": "^2.0.2",
     "vue-msgbox": "^2.0.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",

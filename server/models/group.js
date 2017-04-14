@@ -20,6 +20,8 @@ const group = new mongoose.Schema({
 	}
 })
 
+group.index({name: 'text'})
+
 group.pre('validate', function(next){
 	this.addCode = util.makeid(6)
 	next()

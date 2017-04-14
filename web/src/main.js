@@ -13,6 +13,7 @@ import router from './router'
 import sockets from './sockets'
 import store from './store'
 
+Vue.use(require('vue-moment'));
 Vue.use(VeeValidate);
 Vue.use(Resource);
 Vue.use(SweetAlert);

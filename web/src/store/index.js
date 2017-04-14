@@ -14,6 +14,7 @@ export default new Vuex.Store({
 		currentGroup: {},
 		allGroups: [],
 		roasts: [],
+		searchResults: [],
 		room: null
 	},
 	getters,

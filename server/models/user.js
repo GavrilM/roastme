@@ -22,6 +22,7 @@ const user = new mongoose.Schema({
 	},
 	username: {
 		type: String,
+		unique: true,
 		required: true,
 		trim: true,
 		lowercase:true
@@ -42,6 +43,8 @@ const user = new mongoose.Schema({
 	groups: Array,
 	initial: String
 })
+
+user.index({displayName: 'text'})
 
 user.pre('validate', function(next){
 	Groups.findOne({
