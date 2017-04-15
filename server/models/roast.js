@@ -4,19 +4,49 @@ const passport = require("passport")
 const roast = mongoose.Schema({
     content: {
         type: String,
+        trim: true,
         required: true,
     },
-    user: {
-        type: String,
-        required: String
+    author: {
+        username: {
+            type: String,
+            required:true
+        },
+        displayName: {
+            type: String,
+            required:true
+        }
     },
     createdAt: {
         type: Date,
         required: true
     },
+    anonymous: {
+        type: Boolean,
+        default: false
+    },
     upvotes: {
-        type: Number
+        type: Number,
+        default: 0
+    },
+    upvoted: {
+        type: Array,
+        default: []
+    },
+    downvoted: {
+        type: Array,
+        default: []
+    },
+    location: {
+        where: {
+            type:String,
+            required: true
+        },
+        id: {
+            type: mongoose.Schema.Types.Mixed,
+            required: true
+        }
     }
 })
 
-mongoose.model("Roast", roast)
+module.exports = mongoose.model("Roast", roast)

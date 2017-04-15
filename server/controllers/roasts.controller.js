@@ -1,13 +1,15 @@
 const express = require("express")
-const Roast = require("mongoose").model("Roast")
+const mongoose = require("mongoose")
+const Roast = mongoose.model("Roast")
+const Users = mongoose.model("User")
 
-module.exports.create = function(req, res){
-    const roast = new Roast(req.body)
-    Roast.save((err) => {
+module.exports.create = function(data, fn){
+    const roast = new Roast(sanitize(data))
+    return roast.save((err) => {
         if(err)
-            res.status(400).send(err)
+            fn(null)
         else
-            res.json(roast)
+            fn(roast)
     })
 }
 
@@ -20,19 +22,56 @@ module.exports.getRoast = function(req,res){
     })
 }
 
-module.exports.sanitize = function(req,res,next){
-    if(!req.body.text){
-        res.status(400).send({
-            error: 'No text!'
-        })
-    }
-    else{
-        req.body.text = sanitize(req.body.text)
-        next();
-    }
+module.exports.feed = function(type,id) {
+    return Roast.find({
+        "location.where": type,
+        "location.id": id
+    }).sort({
+        createdAt: -1
+    })
 }
 
-function sanitize(str){
-    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
-    return str.trim();
+module.exports.vote = function(roast, userId, amount = 0){
+    return Roast.update({
+        _id: roast._id,
+        upvoted: {
+            $nin: [userId]
+        },
+        downvoted: {
+            $nin: [userId]
+        }
+    }, {
+        upvoted: roast.upvoted,
+        downvoted: roast.downvoted,
+        upvotes: roast.upvotes
+    })
+    .then(res => {
+        return Users.update({
+            _id: userId
+        },{
+            $inc: {
+                points: amount
+            }
+        })
+    })
 }
+
+module.exports.remove = function(roast){
+    return Roast.remove({
+        _id: roast._id
+    }, (err,res) => {
+        return err ? console.log(err) : res
+    })
+}
+
+function sanitize(roast){
+    roast.content = roast.content
+    return roast
+}
+
+// function sanitize(req,res,next){
+//     let str = req.body.content
+//     str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+//     req.body.content = str.trim();
+//     next()
+// }

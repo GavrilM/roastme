@@ -1,9 +1,9 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const User = require("../models/user")
+const User = require("../../models/user")
 
 module.exports = function(){
-	passport.use(new LocalStrategy(user, pass, done){
+	passport.use(new LocalStrategy((user, pass, done) => {
 		User.findOne({
 			email: user
 		}, (err, user) => {
@@ -15,5 +15,5 @@ module.exports = function(){
 				return done(null, false, { message: "Invalid password"})
 			return done(null, user)
 		})
-	})
+	}))
 }

@@ -1,8 +1,12 @@
 import Vue from 'vue'
+import socketio from 'socket.io-client'
+import VueSocketio from 'vue-socket.io'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import signin from '@/components/signin'
-import signup from '@/components/signup'
+import Home from '@/layouts/home'
+import Login from '@/layouts/login'
+import Landing from '@/layouts/landing'
+
+import MainRoutes from './main'
 
 Vue.use(Router)
 
@@ -11,18 +15,29 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Hello
+      component: Home,
+      beforeEnter: validate,
+      children: MainRoutes
     },
     {
-      path: '/signin',
-      name: 'Sign In',
-      component: signin
+      path: '/login',
+      name: 'Log In',
+      component: Login
     },
     {
-      path: '/signup',
-      name: 'Sign Up',
-      component: signup
+      path: '/landing',
+      name: 'landing',
+      component: Landing
     }
-    
   ]
 })
+
+function validate(to, from, next){
+  Vue.http.get('api/users/checkauth')
+  .then(res => {
+    res.body ? next() : next('login')
+  })
+  .catch(err => {
+    next('landing')
+  })
+}
