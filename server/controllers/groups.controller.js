@@ -45,6 +45,52 @@ module.exports.remove = function(group){
 	})
 }
 
+module.exports.addUser = function(userId, group){
+	return Group.update({
+		_id: group._id
+	},{
+		$addToSet: {
+			users: mongoose.Types.ObjectId(userId)
+		}
+	})
+	.then(res => {
+		return User.update({
+			_id: userId
+		}, {
+			$addToSet: {
+				groups: {
+					_id: mongoose.Types.ObjectId(group._id),
+					name: group.name,
+					owner: mongoose.Types.ObjectId(group.owner)
+				}
+			}
+		})
+	})
+}
+
+module.exports.leave = function(userId, group){
+	return Group.update({
+		_id: group._id
+	},{
+		$pull: {
+			users: userId
+		}
+	})
+	.then(res => {
+		return User.update({
+			_id: userId
+		}, {
+			$pull: {
+				groups: {
+					_id: mongoose.Types.ObjectId(group._id),
+					name: group.name,
+					owner: mongoose.Types.ObjectId(group.owner)
+				}
+			}
+		})
+	})
+}
+
 module.exports.search = function(query){
 	return Group.find({
 		$text: {

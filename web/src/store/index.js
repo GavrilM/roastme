@@ -12,6 +12,7 @@ export default new Vuex.Store({
 		currentUser:{},
 		currentProfile: {},
 		currentGroup: {},
+		groupMembers: [],
 		allGroups: [],
 		roasts: [],
 		searchResults: [],

@@ -6,7 +6,7 @@
       <div class="content">
         <router-view></router-view>
       </div>
-      <div class="sideContainer options"><Options v-on:shift="shift"></Options></div>
+      <div class="sideContainer optionPane"><Options v-on:shift="shift"></Options></div>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@
   .body-content{
     top:50px;
     position:fixed;
-    width: calc(~'100vw + 500px');
+    width: calc(~'100vw + 650px');
     height: calc(~'100vh - 50px');
     transition: transform 200ms ease;
   }
@@ -80,12 +80,13 @@
   a {
     color: #42b983;
   }
-  .options{
+  .optionPane{
     right: @sideWidth;
     border-left: 1px solid #d3d3d3;
+    width: 400px;
   }
   .shift{
-    transform: translateX(-250px);
+    transform: translateX(-400px);
   }
 
   @media screen and (max-width:850px){

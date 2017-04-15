@@ -17,6 +17,12 @@ const group = new mongoose.Schema({
 	},
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
+	},
+	policy: {
+		membersCanAdd: {
+			type: Boolean,
+			default: true
+		}
 	}
 })
 

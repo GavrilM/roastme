@@ -4,7 +4,7 @@
 			<img src="http://www.newdesignfile.com/postpic/2009/09/generic-user-icon-windows_354183.png">
 			<h1>{{name}}</h1>
 			<h3>Heat Level: {{heat}}</h3>
-			<router-link :to="{name: 'settings'}">Edit...</router-link>
+			<router-link :to="{name: 'settings'}" v-show="isOwn">Edit...</router-link>
 		</div>
 		<Feed :roasts="roasts" :class="{floating: scrolled}"></Feed>
 	</div>
@@ -32,6 +32,9 @@
 			},
 			heat() {
 				return this.$store.getters.profile.points
+			},
+			isOwn(){
+				return this.$store.getters.profile.username === this.$store.getters.user.username
 			}
 		},
 		methods: {

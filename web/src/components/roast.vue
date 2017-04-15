@@ -9,7 +9,7 @@
 		{{datum.content}}
 		<div v-on:click="remove" class="remove lnr lnr-trash" v-show="removable"></div>
 		<div class="metadata">
-			<div><router-link :to="{ name: 'profile', params: { user: datum.author.username }}" v-show="!datum.anonymous">
+			<div v-on:click="goToUser"><router-link :to="{ name: 'profile', params: { user: datum.author.username }}" v-show="!datum.anonymous">
 				{{datum.author.displayName}}
 			</router-link></div>
 			<div>{{date | moment("from", "now")}}</div>
@@ -90,6 +90,9 @@
 				.then(() => {
 					
 				})
+			},
+			goToUser(){
+				this.$socket.emit('joinFeed', this.$store.getters.room,'user/wall',this.datum.author.username)
 			}
 		},
 		mounted(){

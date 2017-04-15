@@ -17,6 +17,12 @@ module.exports = function(io, socket){
 			.then(res => {
 				delete res.users
 				socket.emit('currentGroup', res)
+				return Users.find({
+					_id: { $in: res.users }
+				})
+			})
+			.then(res => {
+				io.to(`${path}/${id}`).emit('groupMembers', res)
 			})
 			type = 'group'
 		}

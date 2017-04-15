@@ -16,6 +16,9 @@ export default {
 	currentGroup(group){
 		this.$store.commit('currentGroup', group)
 	},
+	groupMembers(data) {
+		this.$store.commit('groupMembers', data)
+	},
 	allGroups(arr){
 		this.$store.commit('allGroups', arr)
 	},

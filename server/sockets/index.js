@@ -19,7 +19,7 @@ module.exports = function(io){
 		console.log('connected')
 
 		UserConfig(socket)
-		GroupsConfig(socket)
+		GroupsConfig(io, socket)
 		RoastsConfig(io, socket)
 	})
 }

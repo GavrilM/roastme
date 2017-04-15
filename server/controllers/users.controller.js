@@ -1,6 +1,7 @@
 const passport = require('passport')
 const mongoose = require("mongoose")
 const User = mongoose.model("User")
+const Group = mongoose.model("Group")
 
 module.exports.create = function(req,res){
 	req.body.username = removeSpaces(req.body.displayName).toLowerCase()
@@ -8,11 +9,24 @@ module.exports.create = function(req,res){
 	user.provider = 'local'
 	user.save()
 	.then(result => {
+		return Group.update({
+			addCode: req.body.initial
+		}, {
+			$addToSet: {
+				users: {
+					_id: result._id
+				}
+			}
+		})
+	})
+	.then(result => {
+		console.log(result)
 		req.login(user, (err) => {
 			return err ? res.send(500, err) : res.send('Logged in')
 		})
 	})
 	.catch(err => {
+		console.log(err)
 		if(err.message === 'Invalid Code') err = 'Invalid Code'
 		res.status(400).send(err)
 	})

@@ -8,6 +8,9 @@ export default {
 	currentGroup(state, data){
 		state.currentGroup = data
 	},
+	groupMembers(state, data){
+		state.groupMembers = data
+	},
 	allGroups(state, data){
 		state.allGroups = data
 	},

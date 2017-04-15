@@ -44,7 +44,7 @@ const user = new mongoose.Schema({
 	initial: String
 })
 
-user.index({displayName: 'text'})
+user.index({displayName: 'text'}, {username: 'text'})
 
 user.pre('validate', function(next){
 	Groups.findOne({
@@ -56,9 +56,9 @@ user.pre('validate', function(next){
 			return
 		}
 		this.groups = [{
-			_id: res._id,
+			owner: res.owner,
 			name: res.name,
-			owner: res.owner
+			_id: res._id,
 		}]
 		return userModel.findOne({
 			username: this.username
@@ -66,7 +66,7 @@ user.pre('validate', function(next){
 	})
 	.then(res => {
 		if(res){
-			this.username += util.makeid(3)
+			this.username += '.'+util.makeid(3)
 		}
 		this.password = util.hash(this.password)
 		next()
