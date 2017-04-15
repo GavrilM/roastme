@@ -20,7 +20,6 @@ module.exports.create = function(req,res){
 		})
 	})
 	.then(result => {
-		console.log(result)
 		req.login(user, (err) => {
 			return err ? res.send(500, err) : res.send('Logged in')
 		})

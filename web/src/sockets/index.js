@@ -1,11 +1,12 @@
 export default {
 	connect(data){
 		console.log('Connected to Socket')
-		this.$forceUpdate()
+		
 	},
 	reconnect(data){
 		if(this.$route.path == '/landing' || this.$route.path == '/signin' || this.$route.path == '/signup')
 			this.$router.push('/')
+		this.$socket.emit('joinFeed', null,'group',this.$store.getters.room)
 	},
 	currentUser(user){
 		this.$store.commit('currentUser', user)

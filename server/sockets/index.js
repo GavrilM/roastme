@@ -6,6 +6,7 @@ const RoastsConfig = require('./roasts')
 const sessionStore = require('../config/session')
 
 module.exports = function(io){
+	const users = {}
 	io.use(passportSocketIo.authorize({
 		cookieParser: require('cookie-parser'),
 		key:          'express.sid',
@@ -16,10 +17,9 @@ module.exports = function(io){
 	}));
 
 	io.on('connection', socket => {
-		console.log('connected')
-
+		users[`${socket.request.user.username}`] = socket.id
 		UserConfig(socket)
-		GroupsConfig(io, socket)
+		GroupsConfig(io, socket, users)
 		RoastsConfig(io, socket)
 	})
 }

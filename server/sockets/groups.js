@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const Groups = mongoose.model("Group")
 
-module.exports = function(io, socket){
+module.exports = function(io, socket, users){
 	socket.on('createGroup', (data,fn) => {
 		api.create(data, socket.request.user)
 		.then(res => {
@@ -50,8 +50,11 @@ module.exports = function(io, socket){
 			})
 		})
 		.then(res => {
-			console.log(`group/${group._id}`)
 			io.to(`group/${group._id}`).emit('groupMembers', res)
+			return User.findOne({_id: mongoose.Types.ObjectId(userId)})
+		})
+		.then(res => {
+			io.to(users[res.username]).emit('allGroups', res.groups)
 		})
 	})
 
@@ -74,7 +77,6 @@ module.exports = function(io, socket){
 			})
 		})
 		.then(res => {
-			console.log(`group/${group._id}`)
 			io.to(`group/${group._id}`).emit('groupMembers', res)
 		})
 	})

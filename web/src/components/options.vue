@@ -3,7 +3,7 @@
 		<router-link :to="{ name: 'profile', params: { user: this.$store.getters.user.username }}"><button v-on:click="viewSelf"><span class="lnr lnr-user"></span>My Profile</button></router-link>
 		<section v-show="onGroup">
 			<button><span class="lnr lnr-enter"></span>Group Code: {{addCode}}</button>
-			<button v-on:click="addOpen=!addOpen"  v-show="invitable" class="justified"><span class="lnr lnr-plus-circle"></span> Add someone <span :class="{lnr:true, 'lnr-chevron-down':!addOpen, 'lnr-chevron-up':addOpen}"></span></button>
+			<button v-on:click="addOpen=!addOpen"  v-show="invitable" class="justified"><div><span class="lnr lnr-plus-circle"></span>Add someone</div> <span :class="{lnr:true, 'lnr-chevron-down':!addOpen, 'lnr-chevron-up':addOpen}"></span></button>
 
 			<div class="search" v-show="addOpen">
 				<form >
@@ -18,7 +18,7 @@
 				</ul>
 			</div>
 
-			<button v-on:click="membersOpen=!membersOpen" class="justified"><span class="lnr lnr-users"></span>View members<span :class="{lnr:true, 'lnr-chevron-down':!membersOpen, 'lnr-chevron-up':membersOpen}"></span></button>
+			<button v-on:click="membersOpen=!membersOpen" class="justified"><div><span class="lnr lnr-users"></span>View members</div><span :class="{lnr:true, 'lnr-chevron-down':!membersOpen, 'lnr-chevron-up':membersOpen}"></span></button>
 			<div class="members" v-show="membersOpen">
 				<ul class="results">
 					<li v-for="item in members">

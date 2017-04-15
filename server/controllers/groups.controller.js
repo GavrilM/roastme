@@ -50,7 +50,9 @@ module.exports.addUser = function(userId, group){
 		_id: group._id
 	},{
 		$addToSet: {
-			users: mongoose.Types.ObjectId(userId)
+			users: {
+				_id: mongoose.Types.ObjectId(userId)
+			}
 		}
 	})
 	.then(res => {
@@ -73,7 +75,9 @@ module.exports.leave = function(userId, group){
 		_id: group._id
 	},{
 		$pull: {
-			users: userId
+			users:  {
+				_id: mongoose.Types.ObjectId(userId)
+			}
 		}
 	})
 	.then(res => {

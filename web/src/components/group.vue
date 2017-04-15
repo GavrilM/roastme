@@ -28,3 +28,10 @@ import Feed from '@/components/Feed'
 
 	}
 </script>
+
+<style>
+	.group{
+		height: inherit;
+		overflow-y: scroll;
+	}
+</style>
