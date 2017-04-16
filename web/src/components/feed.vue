@@ -19,5 +19,8 @@ import Roast from '@/components/roast'
 </script>
 
 <style>
-	
+	.floating > .list{
+		box-shadow: -10px 0 30px 5px rgba(0,0,0,.25);
+		transition: box-shadow 200ms ease;
+	}
 </style>

@@ -5,9 +5,9 @@
 			<div class="title">{{title}}</div>
 		</div>
 		<div class="right">
-			<span class="lnr lnr-cog" v-on:click="shift"></span>
+			<img v-on:click="roast" src="../assets/fireicon2.png">
 			<router-link :to="{name: 'search'}"><span class="lnr lnr-magnifier"></span></router-link>
-			<span v-on:click="roast" class="lnr lnr-pencil"></span>
+			<span class="lnr lnr-cog" v-on:click="shift"></span>
 		</div>
 	</header>
 </template>
@@ -19,9 +19,9 @@
 		computed: {
 			title(){
 				if(this.$route.path === '/')
-					return 'Roast Wars'
+					return 'Roast Club'
 				switch(this.$route.name){
-					case 'group': return this.$store.getters.group.name || 'Roast Wars'
+					case 'group': return this.$store.getters.group.name || 'Roast Club'
 									break;
 					case 'profile': return 'Profile'
 									break;
@@ -113,6 +113,12 @@
 			a{
 				color: black;
 				text-decoration: none;
+			}
+			img{
+				top:3px;
+				position:relative;
+				height: 1.7em;
+				cursor: pointer;
 			}
 		}
 	}

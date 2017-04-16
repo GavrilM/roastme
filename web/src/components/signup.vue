@@ -1,6 +1,5 @@
 <template>
 	<div class="signup login-form">
-		<h2>Sign Up</h2>
 		<form v-on:submit="onSubmit">
 			<input v-validate="'required|email'" :class="{'invalid':errors.has('email')}" type="text" name="email" placeholder="Email">
 			<label v-show="errors.has('email')">Get a real email.</label>

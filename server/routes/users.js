@@ -15,11 +15,20 @@ users.route('/signup')
 users.route('/signin')
 	.post(passport.authenticate('local'), api.signIn)
 
+users.route('/claimInvite')
+	.post(api.claimInvite)
+
 users.route('/signout')
 	.post(api.signOut)
 
 users.route("/current")
 	.get(api.getById)
+
+users.route("/validEmail")
+	.post(api.checkEmail)
+
+users.route("/validateCode")
+	.post(api.checkCode)
 
 users.route('/initialGroup')
 	.get(api.defaultGroup)

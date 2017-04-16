@@ -1,8 +1,14 @@
 <template>
 	<div class="login">
+		<div class="tabs">
+			<label v-on:click="register=false" :class="{ active: !register, btn: true }" >Sign In</label>
+			<label v-on:click="register=true" :class="{ active: register, btn: true }">Sign Up</label>
+		</div>
+		<div class="btn hasCode" v-on:click="withCode">
+			I haz code
+		</div>
 		<signin v-show="!register"></signin>
 		<signup v-show="register"></signup>
-		<button v-on:click="register = !register">{{btnText}}</button>
 	</div>
 </template>
 
@@ -25,12 +31,98 @@
 			btnText() {
 				return this.register ? "Sign In" : "Register"
 			}
+		},
+		methods: {
+			withCode() {
+				this.$swal({
+					title: 'Enter your code.',
+					input: 'password',
+					showCancelButton: true,
+					confirmButtonText: 'Enter the Club',
+					showLoaderOnConfirm: true,
+				  	preConfirm: (text) => {
+					    return new Promise((resolve,reject) => {
+					    	this.$http.post('api/users/validateCode', {
+								confirmCode: text
+							})
+							.then(res => {
+								res.body ? resolve(text) : reject(`Failed to validate code.`)
+							})	
+					    })
+				  	},
+				}).then(res => {
+					this.$swal({
+						title: 'Set a password.',
+						input: 'password',
+						showCancelButton: true,
+						confirmButtonText: 'Let\'s Go!',
+						showLoaderOnConfirm: true,
+					  	preConfirm: (text) => {
+						    return new Promise((resolve,reject) => {
+						    	if(text.length < 6) reject('Too short.')
+						    	this.$http.post('api/users/claimInvite', {
+									confirmCode: res,
+									password: text
+								})
+							    .then(res => {
+									if(res.body){
+										resolve(text)
+										this.$socket.close()
+										this.$socket.open()
+										this.$router.push('/')
+									}else {
+										reject(`Failed to validate code.`)
+									}
+								})
+							})
+					  	},
+					})
+				})
+				.catch(err => {
+
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="less">
-	.login-form{
+.btn{
+	display: flex;
+	justify-content: center;
+	align-items:center;
+	width:100%;
+	font-family: 'Poppins';
+	font-size: 1.2em;
+	font-weight: 700;
+	cursor: pointer;
+}
+.active{
+	background-color: #d75339;
+	color:white;
+}
+.tabs{
+	display:flex;
+	width:500px;
+	height: 40px;
+	margin: 15px auto 0;
+	border: 1px solid #d75339;
+	border-left: none;
+	label{	
+		border-left: 1px solid #d75339;
+	}
+}
+.hasCode{
+	width:500px;
+	height: 40px;
+	margin: 0 auto;
+	border: 1px solid #d75339;
+	border-top: none;
+	&:hover{
+		.active;
+	}
+}
+.login-form{
 	form {
 		padding: 20px;
 		/*height: 30vh;*/

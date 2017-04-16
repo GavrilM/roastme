@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const util = require("../lib/util")
 
-module.exports.invitee = mongoose.model("invitee",new mongoose.Schema({
+const invitee = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -9,8 +10,20 @@ module.exports.invitee = mongoose.model("invitee",new mongoose.Schema({
         type: String,
         required: true
     },
-    id: {
+    confirmCode: {
         type: String,
-        required: true
-    }
-}))
+        required: true,
+    },
+    initial: {
+        type: String,
+        required: true,
+    },
+})
+
+invitee.pre('validate', function(next){
+    this.confirmCode = util.makeid(8)
+    next()
+})
+
+module.exports = mongoose.model("Invitee", invitee)
+

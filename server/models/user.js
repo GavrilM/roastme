@@ -34,7 +34,7 @@ const user = new mongoose.Schema({
 	},
 	invites: {
 		type: Number,
-		default: 2
+		default: 7
 	},
 	points: {
 		type: Number,

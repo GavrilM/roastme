@@ -4,7 +4,6 @@
 			<img src="http://www.newdesignfile.com/postpic/2009/09/generic-user-icon-windows_354183.png">
 			<h1>{{name}}</h1>
 			<h3>Heat Level: {{heat}}</h3>
-			<router-link :to="{name: 'settings'}" v-show="isOwn">Edit...</router-link>
 		</div>
 		<Feed :roasts="roasts" :class="{floating: scrolled}"></Feed>
 	</div>
@@ -91,12 +90,9 @@
 	}
 	.feed{
 		position:relative;
-		top: @infoheight;
-		padding-top: 1px;
-	}
-	.floating{
-		box-shadow: -10px 0 30px 5px rgba(0,0,0,.25);
-		transition: box-shadow 200ms ease;
+		pointer-events: none;
+		//top: @infoheight;
+		margin-top: @infoheight;
 	}
 
 	@media screen and (max-width:850px){

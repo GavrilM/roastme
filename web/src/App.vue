@@ -9,7 +9,7 @@
 		name: 'app',
 		head: {
 			title: {
-		    	inner: 'Roast Wars'
+		    	inner: 'Roast Club'
 		    },
 		    link: [
 		    	{ rel:'stylesheet', href:'https://fonts.googleapis.com/css?family=Lato|Poppins'},

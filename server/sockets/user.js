@@ -1,7 +1,9 @@
 const api = require('../controllers/users.controller')
 const groupApi = require('../controllers/groups.controller')
-const Users = require('mongoose').model('User')
-const Groups = require('mongoose').model('Group')
+const mongoose = require('mongoose')
+
+const Users = mongoose.model('User')
+const Groups = mongoose.model('Group')
 
 module.exports = function(socket){
 	socket.emit('currentUser', socket.request.user)
@@ -39,6 +41,21 @@ module.exports = function(socket){
 		choice.search(query)
 		.then(res => {
 			socket.emit('searchResults', res)
+		})
+	})
+
+	socket.on('invitation', (data,fn) => {
+		api.invite({
+			email: data[0],
+			name: data[1].trim() + " " + data[2].trim(),
+			initial: data[3]
+		}, socket.request.user)
+		.then(res => {
+			fn(true)
+		})
+		.catch(err => {
+			console.log(err)
+			fn(false)
 		})
 	})
 }

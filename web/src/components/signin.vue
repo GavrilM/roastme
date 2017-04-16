@@ -1,6 +1,5 @@
 <template>
 	<div class="signin login-form">
-		<h2>Sign In</h2>
 		<form v-on:submit="signIn" v-bind:class="formclass">
 			<input type="text" name="email" placeholder="Email" v-validate="'required|email'"><span></span>
 			<input type="password" name="password" placeholder="Password" v-validate="'required'">

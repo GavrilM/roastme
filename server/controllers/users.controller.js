@@ -2,8 +2,10 @@ const passport = require('passport')
 const mongoose = require("mongoose")
 const User = mongoose.model("User")
 const Group = mongoose.model("Group")
+const Invitees = mongoose.model("Invitee")
+const mailer = require('../lib/mail')
 
-module.exports.create = function(req,res){
+function create(req,res,next,fromInvite){
 	req.body.username = removeSpaces(req.body.displayName).toLowerCase()
 	const user = new User(req.body)
 	user.provider = 'local'
@@ -23,12 +25,30 @@ module.exports.create = function(req,res){
 		req.login(user, (err) => {
 			return err ? res.send(500, err) : res.send('Logged in')
 		})
+		if(fromInvite){
+			Invitees.remove({email:req.body.email})
+		}
 	})
 	.catch(err => {
 		console.log(err)
 		if(err.message === 'Invalid Code') err = 'Invalid Code'
 		res.status(400).send(err)
 	})
+}
+
+module.exports.create = create
+
+module.exports.claimInvite = function(req,res){
+	Invitees.findOne({confirmCode: req.body.confirmCode})
+	.then(invite => {
+		invite = invite._doc
+		req.body = Object.assign(req.body, invite)
+		req.body.displayName = req.body.name + ''
+		req.body.name = undefined
+		console.log(req.body)
+		create(req,res,null,true)
+	})
+	.catch(err => console.log(err))
 }
 
 module.exports.signIn = function(req, res, next){
@@ -58,6 +78,34 @@ module.exports.isUnique = function(req,res){
 			res.send(true)
 	})
 }
+
+module.exports.invite = function(invitation, user){
+	const invite = new Invitees(invitation)
+	return invite.save()
+	.then(res => {
+		mailer.invite(user,res)
+	})
+}
+
+module.exports.checkEmail = function(req,res){
+	User.findOne({ 
+		email:req.body.email
+	}, (err, user) => {
+		if(user)
+			res.status(500).send('That email is in use.')
+		else
+			res.send(true)
+	})
+}
+
+module.exports.checkCode = function(req,res){
+	Invitees.findOne(req.body)
+	.then(user => {
+		user ? res.send(true) : res.send(false)
+	})
+	.catch(err => console.log(err))
+}
+
 
 module.exports.byId = function(req,res,next,id){
 	User.findOne({

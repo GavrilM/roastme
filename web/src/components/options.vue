@@ -1,11 +1,17 @@
 <template>
 	<div class="options">
-		<router-link :to="{ name: 'profile', params: { user: this.$store.getters.user.username }}"><button v-on:click="viewSelf"><span class="lnr lnr-user"></span>My Profile</button></router-link>
+		<router-link :to="{ name: 'profile', params: { user: this.$store.getters.user.username }}">
+			<button v-on:click="viewSelf" class="justified">
+				<div><span class="lnr lnr-user"></span>My Profile</div>
+				<router-link :to="{name: 'settings'}" v-on:click.stop><span class="lnr lnr-pencil"></span></router-link>
+			</button>
+		</router-link>
 		<section v-show="onGroup">
 			<button><span class="lnr lnr-enter"></span>Group Code: {{addCode}}</button>
 			<button v-on:click="addOpen=!addOpen"  v-show="invitable" class="justified"><div><span class="lnr lnr-plus-circle"></span>Add someone</div> <span :class="{lnr:true, 'lnr-chevron-down':!addOpen, 'lnr-chevron-up':addOpen}"></span></button>
 
 			<div class="search" v-show="addOpen">
+				<button v-on:click="invite">Invite a new user</button>
 				<form >
 					<input type="text" name="search" v-on:input="update" v-model="query" placeholder="Search..." autofocus="true">
 					<input type="submit" name="" value="Add" v-show="selectedUser" v-on:click.prevent="addUser">
@@ -67,7 +73,6 @@
 			} 
 		},
 		methods: {
-
 			addUser() {
 				this.$socket.emit('addUser',this.selectedUser._id,this.$store.getters.group, res => {
 					if(res) {
@@ -79,6 +84,57 @@
 
 				})
 				
+			},
+			invite(){
+				this.$swal.setDefaults({
+					title: 'Invite a new user',
+					input: 'text',
+					confirmButtonText: 'Next &rarr;',
+					showCancelButton: true,
+					progressSteps: ['1', '2', '3'],
+					showLoaderOnConfirm: true,
+					animation: false
+				})
+
+				var steps = [
+				{
+					text: 'What\'s their email?',
+					input: 'email',
+					preConfirm: (email) => {
+						return this.$http.post('/api/users/validEmail', {email})
+						.then(res => email)
+						.catch(err => {throw new Error(err.body)})
+					}
+				},
+				{
+					title: 'What\'s their first name?',
+				 	text:' (Real name pls, or else no one can roast them)'
+				},
+				{ title: 'What\'s their last name?' }
+				]
+
+				this.$swal.queue(steps).then((result) => {
+					result.push(this.$store.getters.group.addCode)
+					this.$swal.resetDefaults()
+					this.$socket.emit('invitation',result,res => {
+						res ? this.$swal({
+							title: 'Invitation sent!',
+							confirmButtonText: 'Sweet!',
+							type: 'success',
+							showCancelButton: false
+						}) : this.$swal({
+							title: 'Problem with invitation',
+							confirmButtonText: '...ok',
+							type: 'error',
+							showCancelButton: false
+						})
+					})
+				}, err => {
+					this.$swal.resetDefaults()
+				})
+				.catch(err => {
+					console.log(err)
+				})
 			},
 			update() {
 				this.selectedUser = false
@@ -152,6 +208,7 @@
 	}
 	a{
 		text-decoration: none;
+		color: black;
 	}
 	.lnr{
 		padding-right: 5px;
@@ -167,6 +224,22 @@
 			background: none;
 			border-radius: 3px;
 			border: 1px solid black;
+		}
+	}
+	.search button {
+		justify-content: center;
+		height: 40px;
+		border: none;
+		margin: 5px auto;
+		width: 70%;
+		color: white;
+		background: #d75339;
+		font-size:1.2em;
+		font-weight: 600;
+		&:hover{
+			border: 1px solid #d75339;
+			color: #d75339;
+			background: none;
 		}
 	}
 	button{

@@ -4,9 +4,13 @@ export default {
 		
 	},
 	reconnect(data){
+		const room = this.$store.getters.room
 		if(this.$route.path == '/landing' || this.$route.path == '/signin' || this.$route.path == '/signup')
 			this.$router.push('/')
-		this.$socket.emit('joinFeed', null,'group',this.$store.getters.room)
+		if(room){
+			this.$socket.emit('joinFeed', null,room.substr(0,room.indexOf('/')),room.substr(room.indexOf('/')+1, room.length))	
+		}
+		
 	},
 	currentUser(user){
 		this.$store.commit('currentUser', user)
