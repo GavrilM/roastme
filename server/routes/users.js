@@ -21,6 +21,15 @@ users.route('/claimInvite')
 users.route('/signout')
 	.post(api.signOut)
 
+users.route('/forgotten')
+	.post(api.resetPassword)
+
+users.route('/confirmReset')
+	.post(api.confirmReset)
+
+users.route('/newPassword')
+	.post((req,res) => api.updateAccount(req.body.email, { password: req.body.password}).then(result => res.end()))
+
 users.route("/current")
 	.get(api.getById)
 

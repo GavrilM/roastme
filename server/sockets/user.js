@@ -11,7 +11,7 @@ module.exports = function(socket){
 	socket.emit('allGroups', socket.request.user.groups)
 
 	socket.on('emailChange', (email,fn) => {
-		api.updateAccount(socket.request.user._id, {email})
+		api.updateAccount(socket.request.user.email, {email})
 		.then(res => {
 			return Users.findOne({
 				_id: socket.request.user._id
@@ -24,7 +24,7 @@ module.exports = function(socket){
 	})
 
 	socket.on('passwordChange', (password,fn) => {
-		api.updateAccount(socket.request.user._id, {password})
+		api.updateAccount(socket.request.user.email, {password})
 		.then(res => {
 			fn(true)
 		})

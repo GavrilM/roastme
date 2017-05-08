@@ -41,7 +41,9 @@ const user = new mongoose.Schema({
 		default: 100
 	},
 	groups: Array,
-	initial: String
+	initial: String,
+	resetToken: String,
+	resetExpires: Date
 })
 
 user.index({displayName: 'text'}, {username: 'text'})

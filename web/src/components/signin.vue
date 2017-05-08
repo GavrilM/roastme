@@ -5,7 +5,10 @@
 			<input type="password" name="password" placeholder="Password" v-validate="'required'">
 			<br>
 			<input type="submit" name="" >
+			<br>
+			<a v-on:click="forgot">Forgot my Password</a>
 		</form>
+		
 	</div>
 </template>
 
@@ -24,13 +27,62 @@ export default {
 				password: form['password'].value
 			})
 			.then((res) => {
-				this.$router.push('/')
 				this.$socket.close()
 				this.$socket.open()
+				this.$router.push('/')
 			})
 			.catch((err => {
 				this.$swal("Rekt.", err.body, 'error')
 			}))
+		},
+		forgot(){
+			let current
+			this.$swal.setDefaults({
+					title: 'Forgot my password',
+					confirmButtonText: 'Next &rarr;',
+					showCancelButton: true,
+					progressSteps: ['1', '2', '3', '4'],
+					showLoaderOnConfirm: true,
+					animation: false
+				})
+
+				var steps = [
+				{
+					text: 'What\'s your email?',
+					input: 'email',
+					preConfirm: (email) => {
+						return this.$http.post('/api/users/forgotten', { email })
+						.then(res => {current = email})
+						.catch(err => {throw new Error(err.body)})
+					}
+				},
+				{
+					title: 'Check your email for a code',
+					input: 'text',
+				 	text:' Enter validation code:',
+				 	preConfirm: code => {
+				 		return this.$http.post('api/users/confirmReset', { email: current, code })
+				 	}
+				},
+				{
+					title: 'Enter new password',
+					input: 'password',
+				 	preConfirm: password => {
+				 		return this.$http.post('api/users/newPassword', { email: current, password })
+				 	}
+				},
+				{
+					title: 'All Set!',
+					text: 'You can now log in with your new password.'
+				}]
+
+				this.$swal.queue(steps).then((result) => {
+					this.$swal.resetDefaults()
+				})
+				.catch(err => {
+					this.$swal.resetDefaults()
+					console.log(err)
+				})
 		}
 	},
 	computed: {
@@ -38,10 +90,18 @@ export default {
 			return {
 				'submittable' : true
 			}
-		}
+		},
 	}
 }
 </script>
 
-<style>
+<style scoped lang="less">
+a{
+	display: block;
+	margin-top: 20px;
+	cursor: pointer;
+	&:hover{
+		text-decoration: underline;
+	}
+}
 </style>

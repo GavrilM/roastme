@@ -4,6 +4,7 @@ const User = mongoose.model("User")
 const Group = mongoose.model("Group")
 const Invitees = mongoose.model("Invitee")
 const mailer = require('../lib/mail')
+const util = require('../lib/util')
 
 function create(req,res,next,fromInvite){
 	req.body.username = removeSpaces(req.body.displayName).toLowerCase()
@@ -45,7 +46,6 @@ module.exports.claimInvite = function(req,res){
 		req.body = Object.assign(req.body, invite)
 		req.body.displayName = req.body.name + ''
 		req.body.name = undefined
-		console.log(req.body)
 		create(req,res,null,true)
 	})
 	.catch(err => console.log(err))
@@ -61,6 +61,44 @@ module.exports.signOut = function(req, res, next){
 	req.logout()
 	req.session.destroy()
 	res.end()
+}
+
+module.exports.resetPassword = function(req, res){
+	let user
+	User.findOne({ email: req.body.email })
+	.then(result => {
+		if(!result)
+			return new Error("User not found")
+		else {
+			user = result
+			user.resetToken = util.makeid(6)
+			return User.update({email: user.email}, {
+				resetToken: user.resetToken,
+				resetExpires: Date.now() + 3600000
+			})
+		}
+	})
+	.then(result => {
+		mailer.resetPassword(user)
+		res.send("Email Sent")
+	})
+	.catch(err => {
+		console.log(err)
+		res.status(500).send(err.message)
+	})
+}
+
+module.exports.confirmReset = function(req, res){
+	User.findOne({ 
+		email: req.body.email,
+		resetToken: req.body.code
+	})
+	.then(user => {
+		if(!user)
+			res.status(500).send("Invalid Code")
+		else
+			res.send("OK")
+	})
 }
 
 module.exports.getById = function(req, res){
@@ -130,8 +168,8 @@ module.exports.defaultGroup = function(req,res){
 	})
 }
 
-module.exports.updateAccount = function(_id, data){
-	return User.update({_id : mongoose.Types.ObjectId(_id)}, data)
+module.exports.updateAccount = function(email, data){
+	return User.update({email}, data)
 }
 
 module.exports.search = function(query){

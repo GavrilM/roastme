@@ -17,6 +17,7 @@ module.exports = function(io){
 	}));
 
 	io.on('connection', socket => {
+		console.log('connection')
 		users[`${socket.request.user.username}`] = socket.id
 		UserConfig(socket)
 		GroupsConfig(io, socket, users)
@@ -25,9 +26,10 @@ module.exports = function(io){
 }
 
 function onAuthorizeSuccess(data, accept){
+	console.log('success')
 	accept(null,true)
 }
 
 function onAuthorizeFail(){
-
+	console.log('fail')
 }
