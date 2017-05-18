@@ -5,7 +5,9 @@
 			<h1>{{name}}</h1>
 			<h3>Heat Level: {{heat}}</h3>
 		</div>
-		<Feed :roasts="roasts" :class="{floating: scrolled}"></Feed>
+		<div :class="{floating: scrolled}">
+			<Feed :roasts="roasts"></Feed>
+		</div>
 	</div>
 </template>
 
@@ -90,7 +92,6 @@
 	}
 	.feed{
 		position:relative;
-		pointer-events: none;
 		//top: @infoheight;
 		margin-top: @infoheight;
 	}
