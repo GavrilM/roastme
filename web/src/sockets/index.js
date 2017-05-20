@@ -32,6 +32,7 @@ export default {
 	},
 	roasts(data){
 		this.$store.commit('roasts', data)
+		this.$store.getters.feedType == 'recent' ? this.$store.dispatch('sortByDate') : this.$store.dispatch('sortByVote')
 	},
 	searchResults(data){
 		this.$store.commit('searchResults', data)

@@ -27,6 +27,7 @@
 			switchGroup(groupId){
 				this.$router.push('/')
 				this.$socket.emit('joinFeed', this.$store.getters.room,'group',groupId)
+				this.$emit('menu')
 			},
 			makeGroup() {
 				this.$swal({
@@ -52,6 +53,7 @@
 						title: 'Ok!',
 						html: 'Result: ' + res
 					})
+					this.$emit('menu')
 				}).catch(err => {
 
 				})
@@ -67,6 +69,9 @@
 			},
 			active(group){
 				return { active: group._id === this.$store.getters.group._id }
+			},
+			closeMenu() {
+				this.$emit('menu')
 			}
 		}
 	}

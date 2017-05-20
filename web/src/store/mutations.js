@@ -17,6 +17,9 @@ export default {
 	roasts(state, roasts){
 		state.roasts = roasts
 	},
+	feedType(state, type){
+		state.sortType = type
+	},
 	room(state, room){
 		state.room = room
 	},

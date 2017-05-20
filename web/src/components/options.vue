@@ -162,7 +162,7 @@
 				})
 				.then(() => {
 					this.$socket.emit('joinFeed', this.$store.getters.room,'group',this.$store.getters.allGroups[0]._id)
-					this.$emit('shift')
+					this.$emit('options')
 				})
 			},
 			removeGroup() {
@@ -186,7 +186,7 @@
 				})
 				.then(() => {
 					this.$socket.emit('joinFeed', this.$store.getters.room,'group',this.$store.getters.allGroups[0]._id)
-					this.$emit('shift')
+					this.$emit('options')
 				})
 			},
 			select(user) {
@@ -195,7 +195,7 @@
 			},
 			viewSelf(){
 				this.$socket.emit('joinFeed', this.$store.getters.room,'user/wall',this.$store.getters.user.username)
-				this.$emit('shift')
+				this.$emit('options')
 			}
 		}
 	}

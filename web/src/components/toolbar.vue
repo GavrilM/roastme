@@ -1,13 +1,13 @@
 <template>
 	<header>
 		<div class="left">
-			<img src="../assets/logo.png">
+			<img src="../assets/logo.png" v-on:click="openMenu">
 			<div class="title">{{title}}</div>
 		</div>
 		<div class="right">
 			<img v-on:click="roast" src="../assets/fireicon2.png">
 			<router-link :to="{name: 'search'}"><span class="lnr lnr-magnifier"></span></router-link>
-			<span class="lnr lnr-cog" v-on:click="shift"></span>
+			<span class="lnr lnr-cog" v-on:click="openOptions"></span>
 		</div>
 	</header>
 </template>
@@ -75,8 +75,11 @@
 				  	}
 				})
 			},
-			shift() {
-				this.$emit('shift')
+			openMenu() {
+				this.$emit('menu')
+			},
+			openOptions() {
+				this.$emit('options')
 			}
 		}
 	}

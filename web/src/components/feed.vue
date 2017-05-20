@@ -23,15 +23,17 @@ import Roast from '@/components/roast'
 		},
 		data() {
 			return {
-				type: 'recent',
+				type: this.$store.getters.feedType,
 				amount: 20
 			}
 		},
 		methods: {
 			sortTime(){
+				this.$store.commit("feedType", 'recent')
 				this.$store.dispatch('sortByDate')
 			},
 			sortVotes(){
+				this.$store.commit("feedType", 'hot')
 				this.$store.dispatch('sortByVote')
 			}
 		}

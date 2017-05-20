@@ -16,7 +16,8 @@ export default new Vuex.Store({
 		allGroups: [],
 		roasts: [],
 		searchResults: [],
-		room: null
+		room: null,
+		sortType: 'recent'
 	},
 	getters,
 	mutations,

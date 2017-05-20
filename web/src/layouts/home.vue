@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <Toolbar v-on:shift="shift"></Toolbar>
-    <div class="body-content" :class="{shift: shifted}">
-      <div class="sideContainer nav"><Navigation></Navigation></div>
+    <Toolbar v-on:menu="toggleMenu" v-on:options="toggleOptions"></Toolbar>
+    <div class="body-content" :class="{optionShift: optionsopen, menuShift: navopen}">
+      <div class="sideContainer nav"><Navigation v-on:menu="toggleMenu"></Navigation></div>
       <div class="content">
         <router-view></router-view>
       </div>
-      <div class="sideContainer optionPane"><Options v-on:shift="shift"></Options></div>
+      <div class="sideContainer optionPane"><Options v-on:options="toggleOptions"></Options></div>
     </div>
   </div>
 </template>
@@ -25,12 +25,20 @@
     },
     data () {
       return {
-        shifted: false,
+        navopen: false,
+        optionsopen: false,
       }
     },
     methods: {
-      shift() {
-        this.shifted = !this.shifted
+      toggleMenu() {
+        this.navopen = !this.navopen
+        if(this.navopen)
+          this.optionsopen = false
+      },
+      toggleOptions() {
+        this.optionsopen = !this.optionsopen
+        if(this.optionsopen)
+          this.navopen = false
       }
     }
   }
@@ -85,13 +93,36 @@
     border-left: 1px solid #d3d3d3;
     width: 400px;
   }
-  .shift{
+  .optionShift{
     transform: translateX(-400px);
   }
 
-  @media screen and (max-width:850px){
+@media screen and (max-width:850px){
+    .body-content > div{
+      width: 100vw;
+      position: static;
+    }
+    .body-content{
+      width: 300vw;
+      transform: translateX(-100vw);
+      display: flex;
+    }
+    .content{
+      left: 0;
+      position: static;
+    }
+    .menuShift{
+      transform: translateX(0vw);
+    }
+    .optionShift{
+      transform: translateX(-200vw);
+    }
+
+
     .navContainer{
       
     }
+
   }
+  
 </style>

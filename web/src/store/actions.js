@@ -6,7 +6,6 @@ export default {
 		context.commit('roasts', roasts)
 	},
 	sortByDate(context){
-		console.log(context)
 		const roasts = context.getters.roasts.sort((a,b) => {
 			a = new Date(a.createdAt);
 		    b = new Date(b.createdAt);

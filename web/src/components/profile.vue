@@ -5,7 +5,7 @@
 			<h1>{{name}}</h1>
 			<h3>Heat Level: {{heat}}</h3>
 		</div>
-		<div :class="{floating: scrolled}">
+		<div :class="{floating: scrolled, feedContainer: true}">
 			<Feed :roasts="roasts"></Feed>
 		</div>
 	</div>
@@ -63,6 +63,7 @@
 		border-bottom: 1px solid #d3d3d3;
 		font-family: 'Poppins', sans-serif;
 		padding: 0 5px;
+		pointer-events: none;
 		img{
 			position:absolute;
 			top:15px;
@@ -90,7 +91,7 @@
 			bottom: 5px;
 		}
 	}
-	.feed{
+	.feedContainer{
 		position:relative;
 		//top: @infoheight;
 		margin-top: @infoheight;
